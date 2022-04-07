@@ -15,7 +15,8 @@ env:
 jobs:
   terraform:
     name: Terraform
-    environment: dev
+    environment:
+      name: ${{ github.ref == 'refs/heads/master' && 'prod' || 'dev' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,7 +41,7 @@ jobs:
       - name: Terraform workspace select
         working-directory: ./terraform
         id: workspace
-        run: terraform workspace select dev
+        run: terraform workspace select ${{ github.ref == 'refs/heads/master' && 'mainnet' || 'dev' }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
