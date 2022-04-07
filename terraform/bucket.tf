@@ -10,7 +10,7 @@ resource "aws_s3_bucket" "apidoc" {
 
 resource "aws_s3_bucket_acl" "apidoc_acl" {
   bucket = aws_s3_bucket.apidoc.bucket
-  acl = "public-read"
+  acl    = "public-read"
 }
 
 resource "aws_s3_bucket_policy" "apidoc_policy" {
