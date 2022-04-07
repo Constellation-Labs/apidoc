@@ -1,11 +1,5 @@
-locals {
-  bucket = {
-    apidoc = "apidoc-dev.constellationnetwork.io"
-  }
-}
-
 resource "aws_s3_bucket" "apidoc" {
-  bucket = local.bucket.apidoc
+  bucket = var.bucket
 }
 
 resource "aws_s3_bucket_acl" "apidoc_acl" {
@@ -28,7 +22,7 @@ resource "aws_s3_bucket_policy" "apidoc_policy" {
                 "s3:GetObject"
             ],
             "Resource": [
-                "arn:aws:s3:::${local.bucket.apidoc}/*"
+                "arn:aws:s3:::${var.bucket}/*"
             ]
         }
     ]
