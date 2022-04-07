@@ -1,0 +1,247 @@
+openapi: 3.0.1
+info:
+  title: Block Explorer API
+  description: ''
+  contact:
+    email: operators@constellationnetwork.io
+  version: 1.0.0
+tags:
+  - name: snapshots
+  - name: checkpoint blocks
+  - name: transactions
+paths:
+  /snapshots/latest:
+    get:
+      tags:
+        - snapshots
+      summary: Get latest (the highest) snapshot
+      responses:
+        200:
+          description: Latest snapshot
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Snapshot'
+  /snapshots/{hash}:
+    get:
+      tags:
+        - snapshots
+      summary: Get snapshot by hash
+      parameters:
+        - name: hash
+          in: path
+          description: Hash of snapshot to return
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Snapshot for given hash
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Snapshot'
+  /snapshots/{height}:
+    get:
+      tags:
+        - snapshots
+      summary: Get snapshot by height
+      parameters:
+        - name: height
+          in: path
+          description: Height of snapshot to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Snapshot for given height
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Snapshot'
+  /checkpoints/{hash}:
+    get:
+      tags:
+        - checkpoint blocks
+      summary: Get checkpoint block by hash
+      parameters:
+        - name: hash
+          in: path
+          description: Hash of checkpoint block to return
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Checkpoint block for given hash
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/CheckpointBlock'
+
+  /transactions/{hash}:
+    get:
+      tags:
+        - transactions
+      summary: Get transaction by hash
+      parameters:
+        - name: hash
+          in: path
+          description: Hash of transaction to return
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Transaction for given hash
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Transaction'
+  /transactions:
+    get:
+      tags:
+        - transactions
+      summary: Get transactions for sender and/or receiver address
+      description:
+        All transactions are sorted by ordinal number from highest to lowest.<br>
+        <b>Only one query parameter is allowed at a time.</b> Either sender, receiver or address. Not all three at once!
+        Cannot map it properly here as it's an openapi limitation.
+      parameters:
+        - in: query
+          name: sender
+          description: Filters transactions by sender address
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: receiver
+          description: Filters transactions by receiver address
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: address
+          description: Filters transactions by address in both sender and receiver fields
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Transaction for given hash
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Transaction'
+
+components:
+  schemas:
+    Snapshot:
+      type: object
+      properties:
+        hash:
+          type: string
+        height:
+          type: integer
+          format: int64
+        checkpointBlocks:
+          type: array
+          items:
+            type: string
+      example:
+        hash: 1ae6e0f9161b7a29c96e8accb853fb479e0ea026832850ff5def773b5ff00c00
+        height: 58186
+        checkpointBlocks:
+          - 0922bd4a63353040589547cfed00f2660fb736ce694199384f1df2adaac54fe6
+          - 0c27a295e1f58e41582538b8deb18a3aea4ae4b52b7e53c529ed80c03eaaeed1
+    CheckpointBlock:
+      type: object
+      properties:
+        hash:
+          type: string
+        height:
+          type: object
+          properties:
+            min:
+              type: string
+            max:
+              type: string
+        transactions:
+          type: array
+          items:
+            type: string
+        notifications:
+          type: array
+          items:
+            type: string
+        observations:
+          type: array
+          items:
+            type: string
+        children:
+          type: integer
+          format: int32
+        snapshotHash:
+          type: string
+      example:
+        hash: 0923bd4a633f3040589547cfed00f2660fb736ce694199384f1df2adaac54fe6
+        height:
+          min: 58187
+          max: 198640
+        transactions:
+          - adf1ba091a15a2dbj930a7245b36f8abbef7d9eaf0147466bc6069a3eacc4ef6
+          - 2fd12a358a59q6ee0f59687126ff7a984f993fa8002614169085348477ba5ba0
+        notifications:
+          - 6ec1ba091315a2dg2930472a5bdaf8aebe77d9eaf0147466bc6069a3eacc4ef6
+        observations:
+          - e9g1ba091215a25b2930472a5bd6f8abbef7d9eaf0147466bc6069a3eacc4efa
+        children: 2
+        snapshotHash: 1ae6e0f9161b7a29c96e8accb853fb479e0ea026832850ff5def773b5ff00c00
+    TransactionOriginal:
+      type: object
+    Transaction:
+      type: object
+      properties:
+        hash:
+          type: string
+        amount:
+          type: integer
+          format: int64
+        receiver:
+          type: string
+        sender:
+          type: string
+        fee:
+          type: integer
+          format: int32
+        isDummy:
+          type: boolean
+        lastTransactionRef:
+          type: object
+          properties:
+            prevHash:
+              type: string
+            ordinal:
+              type: integer
+              format: int64
+        snapshotHash:
+          type: string
+        checkpointBlock:
+          type: string
+        transactionOriginal:
+          $ref: '#/components/schemas/TransactionOriginal'
+      example:
+        hash: 6ec1ba091915f2db2930472a5bd6f8abbef7d9eaf0147466bc6069a3eacc4ef6
+        amount: 0
+        receiver: DAG2ERrUzev7LoZcs8xeiVqLFQcVXSmEmg5cZ9wW
+        sender: DAG2V3L7efRpk16UGcPHLcqLJthzWxpMoPR3vToD
+        fee: 0
+        isDummy: true
+        lastTransactionRef:
+          prevHash: ''
+          ordinal: 0
+        snapshotHash: 1ee6e0f9161b7a29c96e8accb853fb479e0ea026832850ff5def773b5ff00c00
+        checkpointBlock: 0923bd4a63353040589547cfed00f2660fb736ce694199384f1df2adaac54fe6
+        transactionOriginal:
