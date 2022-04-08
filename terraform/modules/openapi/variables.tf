@@ -6,7 +6,7 @@ variable "s3_prefix" {
   type = string
 }
 
-variable "s3_file_name" {
+variable "s3_default_file" {
   type = string
 }
 
