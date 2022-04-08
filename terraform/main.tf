@@ -29,6 +29,15 @@ module "openapi_block_explorer" {
   spec_path       = "${path.cwd}/../block-explorer"
 }
 
+module "openapi_node" {
+  source = "./modules/openapi"
+
+  s3_bucket_name  = var.bucket
+  s3_prefix       = "node"
+  s3_default_file = "l0-public-v2.yml"
+  spec_path       = "${path.cwd}/../node"
+}
+
 module "openapi_node_owner" {
   source = "./modules/openapi"
 
