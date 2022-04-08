@@ -16,7 +16,7 @@ resource "null_resource" "openapi" {
   triggers = {
     s3_bucket_path = var.s3_bucket_name
     s3_prefix = var.s3_prefix
-    openapi_spec_sha1 = sha1(file(join("/", [var.spec_path, var.s3_file_name])))
+    openapi_spec_sha1 = sha1(join("", [for f in fileset(var.spec_path, "*"): filesha1(join("/", [var.spec_path, f]))]))
   }
 
   provisioner "local-exec" {
@@ -26,7 +26,7 @@ resource "null_resource" "openapi" {
       spec_path = var.spec_path
       s3_bucket_name = var.s3_bucket_name
       s3_prefix = var.s3_prefix
-      s3_file_name = var.s3_file_name
+      s3_file_name = var.s3_default_file
     })
   }
 }
