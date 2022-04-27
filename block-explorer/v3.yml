@@ -1,0 +1,660 @@
+openapi: 3.0.3
+info:
+  title: Block Explorer API
+  description: ''
+  contact:
+    email: operators@constellationnetwork.io
+  version: 3.0.0
+
+tags:
+  - name: Global snapshot
+  - name: Block
+  - name: Balance
+  - name: Transaction
+
+paths:
+  /global-snapshots/latest:
+    get:
+      tags:
+        - Global snapshot
+      summary: Get latest global snapshot
+      responses:
+        200:
+          description: Latest global snapshot
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Snapshot'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+  /global-snapshots/{hash}:
+    get:
+      tags:
+        - Global snapshot
+      summary: Get global snapshot by hash
+      parameters:
+        - name: hash
+          in: path
+          description: Hash of global snapshot to return
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Global snapshot for given hash
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Snapshot'
+
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+  /global-snapshots/{ordinal}:
+    get:
+      tags:
+        - Global snapshot
+      summary: Get global snapshot by ordinal
+      parameters:
+        - name: ordinal
+          in: path
+          description: Ordinal of global snapshot to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Global snapshot for given ordinal
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Snapshot'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+  /global-snapshots/latest/rewards:
+    get:
+      tags:
+        - Global snapshot
+      summary: Get rewards for latest global snapshot
+      responses:
+        200:
+          description: Rewards for latest global snapshot
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RewardTransaction'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+  /global-snapshots/{hash}/rewards:
+    get:
+      tags:
+        - Global snapshot
+      summary: Get rewards for given global snapshot
+      parameters:
+        - name: hash
+          in: path
+          description: Hash of global snapshot to return rewards from
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Rewards for given global snapshot
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RewardTransaction'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+  /global-snapshots/{ordinal}/rewards:
+    get:
+      tags:
+        - Global snapshot
+      summary: Get rewards for given global snapshot
+      parameters:
+        - name: ordinal
+          in: path
+          description: Ordinal of global snapshot to return rewards from
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Rewards for given global snapshot
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RewardTransaction'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+  /blocks/{hash}:
+    get:
+      tags:
+        - Block
+      summary: Get block by hash
+      parameters:
+        - name: hash
+          in: path
+          description: Hash of block to return
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Block for given hash
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Block'
+
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+  /transactions/{hash}:
+    get:
+      tags:
+        - Transaction
+      summary: Get transaction by hash
+      parameters:
+        - name: hash
+          in: path
+          description: Hash of transaction to return
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Transaction for given hash
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+  /global-snapshots/latest/transactions:
+    get:
+      tags:
+        - Transaction
+      summary: Get transactions from the latest snapshot
+      parameters:
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+        - name: search_after
+          in: query
+          description: Hash to search after given transaction. Please keep in mind that it's mutually exclusive with search_before.
+          required: false
+          schema:
+            type: string
+        - name: search_before
+          in: query
+          description: Hash to search before given transaction. Please keep in mind that it's mutually exclusive with search_after.
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Transactions from the latest snapshot
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+  /global-snapshots/{hash}/transactions:
+    get:
+      tags:
+        - Transaction
+      summary: Get transactions for the given global snapshot
+      parameters:
+        - name: hash
+          in: path
+          description: Hash of the global snapshot to return transactions from
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+        - name: search_after
+          in: query
+          description: Hash to search after given transaction. Please keep in mind that it's mutually exclusive with search_before.
+          required: false
+          schema:
+            type: string
+        - name: search_before
+          in: query
+          description: Hash to search before given transaction. Please keep in mind that it's mutually exclusive with search_after.
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Transactions from the given global snapshot
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+  /global-snapshots/{ordinal}/transactions:
+    get:
+      tags:
+        - Transaction
+      summary: Get transactions for the given global snapshot
+      parameters:
+        - name: ordinal
+          in: path
+          description: Ordinal of the global snapshot to return transactions from
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+        - name: search_after
+          in: query
+          description: Hash to search after given transaction. Please keep in mind that it's mutually exclusive with search_before.
+          required: false
+          schema:
+            type: string
+        - name: search_before
+          in: query
+          description: Hash to search before given transaction. Please keep in mind that it's mutually exclusive with search_after.
+          required: false
+          schema:
+            type: string
+
+      responses:
+        200:
+          description: Transactions from the given global snapshot
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+  /addresses/{address}/transactions:
+    get:
+      tags:
+        - Transaction
+      summary: Get transactions for the given address
+      parameters:
+        - name: address
+          in: path
+          description: Wallet address
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+        - name: search_after
+          in: query
+          description: Hash to search after given transaction. Please keep in mind that it's mutually exclusive with search_before.
+          required: false
+          schema:
+            type: string
+        - name: search_before
+          in: query
+          description: Hash to search before given transaction. Please keep in mind that it's mutually exclusive with search_after.
+          required: false
+          schema:
+            type: string
+
+      responses:
+        200:
+          description: Both received and sent transactions for the given address
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+  /addresses/{address}/transactions/sent:
+    get:
+      tags:
+        - Transaction
+      summary: Get sent transactions by the given address
+      parameters:
+        - name: address
+          in: path
+          description: Wallet address
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+        - name: search_after
+          in: query
+          description: Hash to search after given transaction. Please keep in mind that it's mutually exclusive with search_before.
+          required: false
+          schema:
+            type: string
+        - name: search_before
+          in: query
+          description: Hash to search before given transaction. Please keep in mind that it's mutually exclusive with search_after.
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Sent transactions by the given address
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+  /addresses/{address}/transactions/received:
+    get:
+      tags:
+        - Transaction
+      summary: Get received transactions by the given address
+      parameters:
+        - name: address
+          in: path
+          description: Wallet address
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+        - name: search_after
+          in: query
+          description: Hash to search after given transaction. Please keep in mind that it's mutually exclusive with search_before.
+          required: false
+          schema:
+            type: string
+        - name: search_before
+          in: query
+          description: Hash to search before given transaction. Please keep in mind that it's mutually exclusive with search_after.
+          required: false
+          schema:
+            type: string
+
+      responses:
+        200:
+          description: Received transactions by the given address
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+                
+  /addresses/{address}/balances:
+    get:
+      tags:
+        - Balance
+      summary: Get balance for the given address
+      parameters:
+        - name: address
+          in: path
+          description: Wallet address
+          required: true
+          schema:
+            type: string
+        - name: ordinal
+          in: query
+          description: Global snapshot ordinal
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Balance for the given address from latest or given global snapshot
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  balance:
+                    type: integer
+                    format: int64
+                  ordinal:
+                    type: integer
+                    format: int64
+
+components:
+  schemas:
+    NotFound:
+      type: object
+      properties:
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    Snapshot:
+      type: object
+      properties:
+        hash:
+          type: string
+        ordinal:
+          type: integer
+          format: int64
+        height:
+          type: integer
+          format: int64
+        subHeight:
+          type: integer
+          format: int64
+        lastSnapshotHash:
+          type: string
+        blocks:
+          type: array
+          items:
+            type: string
+        timestamp:
+          type: string
+          title: ISOString
+      example:
+        hash: 1ae6e0f9161b7a29c96e8accb853fb479e0ea026832850ff5def773b5ff00c00
+        ordinal: 58183
+        height: 58100
+        subHeight: 2
+        lastSnapshotHash: 0922bd4a63353040589547cfed00f2660fb736ce694199384f1df2edaac54fe6
+        blocks:
+          - 0922bd4a63353040589547cfed00f2660fb736ce694199384f1df2adaac54fe6
+          - 0c27a295e1f58e41582538b8deb18a3aea4ae4b52b7e53c529ed80c03eaaeed1
+        timestamp: "2020-05-12T10:16:14Z"
+    RewardTransaction:
+      type: object
+      properties:
+        destination:
+          type: string
+        amount:
+          type: integer
+          format: int64
+    Height:
+      type: integer
+      format: int64
+    BlockReference:
+      type: object
+      properties:
+        hash:
+          type: string
+        height:
+          $ref: "#/components/schemas/Height"
+    Block:
+      type: object
+      properties:
+        hash:
+          type: string
+        height:
+          $ref: "#/components/schemas/Height"
+        transactions:
+          type: array
+          items:
+            type: string
+        parent:
+          type: array
+          items:
+            $ref: "#/components/schemas/BlockReference"
+        snapshotHash:
+          type: string
+        snapshotOrdinal:
+          type: integer
+          format: int64
+        timestamp:
+          type: string
+          title: ISOString
+      example:
+        hash: 0923bd4a633f3040589547cfed00f2660fb736ce694199384f1df2adaac54fe6
+        height: 58184
+        transactions:
+          - adf1ba091a15a2dbj930a7245b36f8abbef7d9eaf0147466bc6069a3eacc4ef6
+          - 2fd12a358a59q6ee0f59687126ff7a984f993fa8002614169085348477ba5ba0
+        parent:
+          - hash: 2fd12a358a59q6ee0f59687126ff7a984f993fa8002614169085348477ba5ba2
+            height: 51232
+        snapshotHash: 1ae6e0f9161b7a29c96e8accb853fb479e0ea026832850ff5def773b5ff00c00
+        timestamp: "2020-05-12T10:16:14Z"
+    TransactionOriginal:
+      type: object
+    Transaction:
+      type: object
+      properties:
+        hash:
+          type: string
+        source:
+          type: string
+        destination:
+          type: string
+        amount:
+          type: integer
+          format: int64
+        fee:
+          type: integer
+          format: int64
+        parent:
+          type: object
+          properties:
+            hash:
+              type: string
+            ordinal:
+              type: integer
+              format: int64
+        snapshotHash:
+          type: string
+        snapshotOrdinal:
+          type: integer
+          format: int64
+        blockHash:
+          type: string
+        timestamp:
+          type: string
+          title: ISOString
+        transactionOriginal:
+          $ref: '#/components/schemas/TransactionOriginal'
+      example:
+        hash: 6ec1ba091915f2db2930472a5bd6f8abbef7d9eaf0147466bc6069a3eacc4ef6
+        source: DAG2V3L7efRpk16UGcPHLcqLJthzWxpMoPR3vToD
+        destination: DAG2ERrUzev7LoZcs8xeiVqLFQcVXSmEmg5cZ9wW
+        amount: 2
+        fee: 1
+        parent:
+          hash: ''
+          ordinal: 0
+        snapshotHash: 1ee6e0f9161b7a29c96e8accb853fb479e0ea026832850ff5def773b5ff00c00
+        snapshotOrdinal: 3
+        blockHash: 0923bd4a63353040589547cfed00f2660fb736ce694199384f1df2adaac54fe6
+        timestamp: "2020-05-12T10:16:14Z"
+        transactionOriginal:
+

@@ -1,0 +1,224 @@
+openapi: 3.0.3
+info:
+  title: L1 Node - Public API
+  description: ''
+  contact:
+    email: operators@constellationnetwork.io
+  version: 2.0.0
+
+tags:
+  - name: Cluster
+  - name: DAG
+  - name: Metric
+
+paths:
+  /cluster/info:
+    get:
+      tags:
+        - Cluster
+      description: Get Cluster info
+      responses:
+        200:
+          description: Cluster info
+          headers:
+            X-Id:
+              $ref: '#/components/headers/X-Id'
+            X-Session-Token:
+              $ref: '#/components/headers/X-Session-Token'
+            Request-Signature:
+              $ref: '#/components/headers/Request-Signature'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Peer'
+
+  /transaction:
+    post:
+      tags:
+        - DAG
+      description: Post $DAG transaction
+      requestBody:
+        description: Signed $DAG transaction
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        200:
+          description: $DAG transaction has been received for processing
+          headers:
+            X-Id:
+              $ref: '#/components/headers/X-Id'
+            X-Session-Token:
+              $ref: '#/components/headers/X-Session-Token'
+            Request-Signature:
+              $ref: '#/components/headers/Request-Signature'
+              
+
+  /transaction/last-reference/{address}:
+    get:
+      tags:
+        - DAG
+      description: Get last transaction reference of the given address
+      parameters:
+        - name: address
+          in: path
+          description: Wallet address
+          required: true
+          schema:
+            $ref: '#/components/schemas/Address'
+      responses:
+        200:
+          description: Last $DAG transaction reference for given wallet address
+          headers:
+            X-Id:
+              $ref: '#/components/headers/X-Id'
+            X-Session-Token:
+              $ref: '#/components/headers/X-Session-Token'
+            Request-Signature:
+              $ref: '#/components/headers/Request-Signature'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reference'
+
+  /metric:
+    get:
+      tags:
+        - Metric
+      description: Micrometer metrics
+      responses:
+        200:
+          description: Micrometer metrics
+          headers:
+            X-Id:
+              $ref: '#/components/headers/X-Id'
+            X-Session-Token:
+              $ref: '#/components/headers/X-Session-Token'
+            Request-Signature:
+              $ref: '#/components/headers/Request-Signature'
+          content:
+            text/html:
+              schema:
+                type: string
+
+components:
+  headers:
+    X-Id:
+      description: Node Id
+      schema:
+        $ref: '#/components/schemas/PeerId'
+    X-Session-Token:
+      description: Node session identifier
+      schema:
+        $ref: '#/components/schemas/SessionToken'
+    Request-Signature:
+      description: RSA signature of the response
+      schema:
+        type: string
+        example: 'MEQCIE35YM9i8xekL7P9M9Nx3858d9rlY+k2xCIRhgVM/O0nAiBlC4x+GqJ07LVhT5svcn5UWJGOXbch2ampvNkCE2nVOQ=='
+  schemas:
+    PeerId:
+      type: string
+      example: 'c7f9a08bdea7ff5f51c8af16e223a1d751bac9c541125d9aef5658e9b7597aee8cba374119ebe83fb9edd8c0b4654af273f2d052e2d7dd5c6160b6d6c284a17c'
+    Host:
+      description: 'IP address'
+      type: string
+      example: '1.2.3.4'
+    Port:
+      description: 'Port 0-65535'
+      type: integer
+      example: 1234
+    SessionToken:
+      description: 'Session UUID token'
+      type: string
+      example: 'c87315e1-5ac5-49ce-baa6-e0b1d7aeeb4e'
+    NodeState:
+      description: 'Node state'
+      type: string
+      enum:
+        - 'Ready'
+        - 'Initial'
+        - 'ReadyToJoin'
+        - 'LoadingGenesis'
+        - 'GenesisReady'
+        - 'StartingSession'
+        - 'SessionStarted'
+        - 'WaitingForDownload'
+        - 'DownloadInProgress'
+        - 'Leaving'
+        - 'Offline'
+    Peer:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/PeerId'
+        ip:
+          $ref: '#/components/schemas/Host'
+        publicPort:
+          $ref: '#/components/schemas/Port'
+        p2pPort:
+          $ref: '#/components/schemas/Port'
+        session:
+          $ref: '#/components/schemas/SessionToken'
+        state:
+          $ref: '#/components/schemas/NodeState'
+    Address:
+      type: string
+      example: 'DAG4xPWQj3BpAg2YKg3kbdW2AJcMfZz2SUKqYb1t'
+    Reference:
+      type: object
+      properties:
+        hash:
+          type: string
+        ordinal:
+          type: integer
+          format: int64
+    Transaction:
+      type: object
+      properties:
+        value:
+          type: object
+          properties:
+            source:
+              type: string
+            destination:
+              type: string
+            amount:
+              type: integer
+              format: int64
+            fee:
+              type: integer
+              format: int64
+            parent:
+              $ref: '#/components/schemas/Reference'
+            salt:
+              type: integer
+              format: int64
+        proofs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              signature:
+                type: string
+      example:
+        value:
+          source: DAG3hZTBgtb2iH9ZdLNvaKqPT4ZncCuW6uYxZack
+          destination: DAG2rMPHX4w1cMMJowmewRMjD1in53yRURt6Eijh
+          amount: 100000000
+          fee: 0
+          parent:
+            hash: ''
+            ordinal: 0
+          salt: 6018762703199813000
+        proofs:
+          - id: c7f9a08bdea7ff5f51c8af16e223a1d751bac9c541125d9aef5658e9b7597aee8cba374119ebe83fb9edd8c0b4654af273f2d052e2d7dd5c6160b6d6c284a17c
+            signature: 3045022017607e6f32295b0ba73b372e31780bd373322b6342c3d234b77bea46adc78dde022100e6ffe2bca011f4850b7c76d549f6768b88d0f4c09745c6567bbbe45983a28bf1
+              
+

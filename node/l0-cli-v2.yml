@@ -98,7 +98,7 @@ components:
       schema:
         $ref: '#/components/schemas/PeerId'
     X-Session-Token:
-      description: Session identifier
+      description: Node session identifier
       schema:
         $ref: '#/components/schemas/SessionToken'
     Request-Signature:
