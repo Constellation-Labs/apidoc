@@ -25,7 +25,7 @@ module "openapi_block_explorer" {
 
   s3_bucket_name  = var.bucket
   s3_prefix       = "block-explorer"
-  s3_default_file = "v2.yml"
+  s3_default_file = "v3.yml"
   spec_path       = "${path.cwd}/../block-explorer"
 }
 
