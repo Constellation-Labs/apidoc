@@ -34,7 +34,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Peer'
 
-  /transaction:
+  /transactions:
     post:
       tags:
         - DAG
@@ -58,7 +58,7 @@ paths:
               $ref: '#/components/headers/Request-Signature'
               
 
-  /transaction/last-reference/{address}:
+  /transactions/last-reference/{address}:
     get:
       tags:
         - DAG
@@ -85,7 +85,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Reference'
 
-  /metric:
+  /metrics:
     get:
       tags:
         - Metric
