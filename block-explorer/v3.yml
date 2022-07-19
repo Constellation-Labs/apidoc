@@ -24,13 +24,17 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/Snapshot'
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Snapshot'
         404:
           description: Not found
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFound'
+
   /global-snapshots/{hash}:
     get:
       tags:
@@ -49,14 +53,17 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/Snapshot'
-
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Snapshot'
         404:
           description: Not found
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFound'
+
   /global-snapshots/{ordinal}:
     get:
       tags:
@@ -76,13 +83,17 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/Snapshot'
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Snapshot'
         404:
           description: Not found
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFound'
+
   /global-snapshots/latest/rewards:
     get:
       tags:
@@ -94,15 +105,19 @@ paths:
           content:
             'application/json':
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/RewardTransaction'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RewardTransaction'
         404:
           description: Not found
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFound'
+
   /global-snapshots/{hash}/rewards:
     get:
       tags:
@@ -121,15 +136,19 @@ paths:
           content:
             'application/json':
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/RewardTransaction'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RewardTransaction'
         404:
           description: Not found
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFound'
+
   /global-snapshots/{ordinal}/rewards:
     get:
       tags:
@@ -149,15 +168,19 @@ paths:
           content:
             'application/json':
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/RewardTransaction'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RewardTransaction'
         404:
           description: Not found
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFound'
+
   /blocks/{hash}:
     get:
       tags:
@@ -176,14 +199,17 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/Block'
-
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Block'
         404:
           description: Not found
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFound'
+
   /transactions/{hash}:
     get:
       tags:
@@ -202,13 +228,17 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/Transaction'
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Transaction'
         404:
           description: Not found
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFound'
+
   /global-snapshots/latest/transactions:
     get:
       tags:
@@ -233,21 +263,36 @@ paths:
           required: false
           schema:
             type: string
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
       responses:
         200:
           description: Transactions from the latest snapshot
           content:
             'application/json':
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Transaction'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
         404:
           description: Not found
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFound'
+
   /global-snapshots/{hash}/transactions:
     get:
       tags:
@@ -278,21 +323,36 @@ paths:
           required: false
           schema:
             type: string
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
       responses:
         200:
           description: Transactions from the given global snapshot
           content:
             'application/json':
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Transaction'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
         404:
           description: Not found
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFound'
+
   /global-snapshots/{ordinal}/transactions:
     get:
       tags:
@@ -323,22 +383,36 @@ paths:
           required: false
           schema:
             type: string
-
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
       responses:
         200:
           description: Transactions from the given global snapshot
           content:
             'application/json':
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Transaction'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
         404:
           description: Not found
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFound'
+
   /address/{address}/transactions:
     get:
       tags:
@@ -369,22 +443,36 @@ paths:
           required: false
           schema:
             type: string
-
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
       responses:
         200:
           description: Both received and sent transactions for the given address
           content:
             'application/json':
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Transaction'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
         404:
           description: Not found
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFound'
+
   /address/{address}/transactions/sent:
     get:
       tags:
@@ -415,21 +503,36 @@ paths:
           required: false
           schema:
             type: string
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
       responses:
         200:
           description: Sent transactions by the given address
           content:
             'application/json':
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Transaction'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
         404:
           description: Not found
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFound'
+
   /address/{address}/transactions/received:
     get:
       tags:
@@ -460,16 +563,29 @@ paths:
           required: false
           schema:
             type: string
-
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
       responses:
         200:
           description: Received transactions by the given address
           content:
             'application/json':
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Transaction'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
         404:
           description: Not found
           content:
@@ -503,12 +619,15 @@ paths:
               schema:
                 type: object
                 properties:
-                  balance:
-                    type: integer
-                    format: int64
-                  ordinal:
-                    type: integer
-                    format: int64
+                  data:
+                    type: object
+                    properties:
+                      balance:
+                        type: integer
+                        format: int64
+                      ordinal:
+                        type: integer
+                        format: int64
 
 components:
   schemas:
