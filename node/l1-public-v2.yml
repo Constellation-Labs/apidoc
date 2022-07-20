@@ -4,7 +4,7 @@ info:
   description: ''
   contact:
     email: operators@constellationnetwork.io
-  version: 2.0.0
+  version: 2.1.0
 
 tags:
   - name: Cluster
@@ -48,7 +48,7 @@ paths:
               $ref: '#/components/schemas/Transaction'
       responses:
         200:
-          description: $DAG transaction has been received for processing
+          description: $DAG transaction has been accepted for processing. Returned hash of the transaction.
           headers:
             X-Id:
               $ref: '#/components/headers/X-Id'
@@ -56,6 +56,26 @@ paths:
               $ref: '#/components/headers/X-Session-Token'
             Request-Signature:
               $ref: '#/components/headers/Request-Signature'
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: $DAG transaction has been rejected. Returned rejection reason.
+          headers:
+            X-Id:
+              $ref: '#/components/headers/X-Id'
+            X-Session-Token:
+              $ref: '#/components/headers/X-Session-Token'
+            Request-Signature:
+              $ref: '#/components/headers/Request-Signature'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ErrorResponse'
               
 
   /transactions/last-reference/{address}:
@@ -221,4 +241,15 @@ components:
           - id: c7f9a08bdea7ff5f51c8af16e223a1d751bac9c541125d9aef5658e9b7597aee8cba374119ebe83fb9edd8c0b4654af273f2d052e2d7dd5c6160b6d6c284a17c
             signature: 3045022017607e6f32295b0ba73b372e31780bd373322b6342c3d234b77bea46adc78dde022100e6ffe2bca011f4850b7c76d549f6768b88d0f4c09745c6567bbbe45983a28bf1
               
-
+    ErrorCause:
+      type: object
+      properties:
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorCause"
