@@ -4,7 +4,7 @@ info:
   description: ''
   contact:
     email: operators@constellationnetwork.io
-  version: 2.1.0
+  version: 2.2.0
 
 tags:
   - name: Cluster
@@ -45,7 +45,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Transaction'
+              $ref: '#/components/schemas/SignedTransaction'
       responses:
         200:
           description: $DAG transaction has been accepted for processing. Returned hash of the transaction.
@@ -59,7 +59,10 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                type: object
+                properties:
+                  hash:
+                    $ref: '#/components/schemas/Hash'
         400:
           description: $DAG transaction has been rejected. Returned rejection reason.
           headers:
@@ -72,11 +75,43 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/ErrorResponse'
-              
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /transactions/{hash}:
+    get:
+      tags:
+        - DAG
+      description: Get the view of the $DAG transaction for the given hash
+      parameters:
+        - name: hash
+          in: path
+          description: Transaction hash
+          required: true
+          schema:
+            $ref: '#/components/schemas/Hash'
+      responses:
+        200:
+          description: Found the transaction with given hash. Returned the view of the transaction
+          headers:
+            X-Id:
+              $ref: '#/components/headers/X-Id'
+            X-Session-Token:
+              $ref: '#/components/headers/X-Session-Token'
+            Request-Signature:
+              $ref: '#/components/headers/Request-Signature'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionView'
+        400:
+          description: Transaction with the given hash not found on the node
+          headers:
+            X-Id:
+              $ref: '#/components/headers/X-Id'
+            X-Session-Token:
+              $ref: '#/components/headers/X-Session-Token'
+            Request-Signature:
+              $ref: '#/components/headers/Request-Signature'
 
   /transactions/last-reference/{address}:
     get:
@@ -171,6 +206,11 @@ components:
         - 'DownloadInProgress'
         - 'Leaving'
         - 'Offline'
+    TransactionStatus:
+      description: 'Status of the transaction'
+      type: string
+      enum:
+        - 'Waiting'
     Peer:
       type: object
       properties:
@@ -189,35 +229,49 @@ components:
     Address:
       type: string
       example: 'DAG4xPWQj3BpAg2YKg3kbdW2AJcMfZz2SUKqYb1t'
+    Hash:
+      type: string
+      example: '893d9697bf76731edb6f92ad2396844724cd47a9c22195f02483cc84c3afafce'
     Reference:
       type: object
       properties:
         hash:
-          type: string
+          $ref: '#/components/schemas/Hash'
         ordinal:
           type: integer
           format: int64
     Transaction:
       type: object
       properties:
+        source:
+          type: string
+        destination:
+          type: string
+        amount:
+          type: integer
+          format: int64
+        fee:
+          type: integer
+          format: int64
+        parent:
+          $ref: '#/components/schemas/Reference'
+        salt:
+          type: integer
+          format: int64
+      example:
+        source: DAG3hZTBgtb2iH9ZdLNvaKqPT4ZncCuW6uYxZack
+        destination: DAG2rMPHX4w1cMMJowmewRMjD1in53yRURt6Eijh
+        amount: 100000000
+        fee: 0
+        parent:
+          hash: ''
+          ordinal: 0
+        salt: 6018762703199813000
+    SignedTransaction:
+      type: object
+      properties:
         value:
-          type: object
-          properties:
-            source:
-              type: string
-            destination:
-              type: string
-            amount:
-              type: integer
-              format: int64
-            fee:
-              type: integer
-              format: int64
-            parent:
-              $ref: '#/components/schemas/Reference'
-            salt:
-              type: integer
-              format: int64
+          $ref: '#/components/schemas/Transaction'
         proofs:
           type: array
           items:
@@ -240,7 +294,15 @@ components:
         proofs:
           - id: c7f9a08bdea7ff5f51c8af16e223a1d751bac9c541125d9aef5658e9b7597aee8cba374119ebe83fb9edd8c0b4654af273f2d052e2d7dd5c6160b6d6c284a17c
             signature: 3045022017607e6f32295b0ba73b372e31780bd373322b6342c3d234b77bea46adc78dde022100e6ffe2bca011f4850b7c76d549f6768b88d0f4c09745c6567bbbe45983a28bf1
-              
+    TransactionView:
+      type: object
+      properties:
+        transaction:
+          $ref: '#/components/schemas/Transaction'
+        hash:
+          $ref: '#/components/schemas/Hash'
+        status:
+          $ref: '#/components/schemas/TransactionStatus'
     ErrorCause:
       type: object
       properties:
