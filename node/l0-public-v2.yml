@@ -36,6 +36,28 @@ paths:
                 items:
                   $ref: '#/components/schemas/Peer'
 
+  /cluster/session:
+    get:
+      tags:
+        - Cluster
+      summary: Get current cluster session token
+      responses:
+        200:
+          description: Cluster session token
+          headers:
+            X-Id:
+              $ref: '#/components/headers/X-Id'
+            X-Session-Token:
+              $ref: '#/components/headers/X-Session-Token'
+            Request-Signature:
+              $ref: '#/components/headers/Request-Signature'
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ClusterSessionToken'
+        404:
+          description: Cluster session not found
+
   /dag/total-supply:
     get:
       tags:
@@ -385,3 +407,10 @@ components:
           example: 1234
         ordinal:
           $ref: '#/components/schemas/SnapshotOrdinal'
+    ClusterSessionToken:
+      type: object
+      properties:
+        token:
+          type: string
+          format: int64
+          example: "20180203073000"

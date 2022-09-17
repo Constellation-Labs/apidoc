@@ -27,21 +27,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/NodeState'
 
-  /cluster/session:
-    get:
-      tags:
-        - Cluster
-      summary: Get current cluster session token
-      responses:
-        200:
-          description: Cluster session token
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ClusterSessionToken'
-        404:
-          description: Cluster session not found
-
   /metrics:
     get:
       tags:
@@ -207,11 +192,4 @@ components:
           type: object
     Transaction:
       type: object
-    ClusterSessionToken:
-      type: object
-      properties:
-        token:
-          type: integer
-          format: int64
-          example: 20180203073000
 
