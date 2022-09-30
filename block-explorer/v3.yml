@@ -622,6 +622,8 @@ paths:
                   data:
                     type: object
                     properties:
+                      address:
+                        type: string
                       balance:
                         type: integer
                         format: int64
