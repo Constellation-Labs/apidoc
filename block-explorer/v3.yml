@@ -210,6 +210,60 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFound'
 
+  /transactions:
+    get:
+      tags:
+        - Transaction
+      summary: Get transactions
+      parameters:
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+        - name: search_after
+          in: query
+          description: Hash to search after given transaction. Please keep in mind that it's mutually exclusive with search_before.
+          required: false
+          schema:
+            type: string
+        - name: search_before
+          in: query
+          description: Hash to search before given transaction. Please keep in mind that it's mutually exclusive with search_after.
+          required: false
+          schema:
+            type: string
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Both received and sent transactions
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
   /transactions/{hash}:
     get:
       tags:
