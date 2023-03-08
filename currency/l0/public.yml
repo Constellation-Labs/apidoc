@@ -1,0 +1,375 @@
+openapi: 3.0.3
+info:
+  title: L0 Currency Node - Public API
+  description: ""
+  contact:
+    email: operators@constellationnetwork.io
+  version: 1.0.0
+
+tags:
+  - name: Cluster
+  - name: Snapshot
+  - name: Currency
+  - name: Metric
+
+paths:
+  /cluster/info:
+    get:
+      tags:
+        - Cluster
+      description: Get Cluster info
+      responses:
+        200:
+          description: Cluster info
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Peer"
+
+  /cluster/session:
+    get:
+      tags:
+        - Cluster
+      summary: Get current cluster session token
+      responses:
+        200:
+          description: Cluster session token
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ClusterSessionToken"
+        404:
+          description: Cluster session not found
+
+  /currency/total-supply:
+    get:
+      tags:
+        - Currency
+      description: Get $Currency total supply on latest snapshot
+      responses:
+        200:
+          description: Total supply on latest snapshot
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TotalSupply"
+
+  /currency/{ordinal}/total-supply:
+    get:
+      tags:
+        - Currency
+      description: Get $Currency total supply on given snapshot
+      parameters:
+        - name: ordinal
+          in: path
+          description: Snapshot ordinal
+          required: true
+          schema:
+            $ref: "#/components/schemas/SnapshotOrdinal"
+      responses:
+        200:
+          description: Total supply on given snapshot
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TotalSupply"
+
+  /currency/{address}/balance:
+    get:
+      tags:
+        - Currency
+      description: Get $Currency balance for given address
+      parameters:
+        - name: address
+          in: path
+          description: Currency Address
+          required: true
+          schema:
+            $ref: "#/components/schemas/Address"
+      responses:
+        200:
+          description: $Currency balance for given address
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Balance"
+
+  /currency/{ordinal}/{address}/balance:
+    get:
+      tags:
+        - Currency
+      description: Get $Currency balance for given address on given snapshot
+      parameters:
+        - name: ordinal
+          in: path
+          description: Snapshot ordinal
+          required: true
+          schema:
+            $ref: "#/components/schemas/SnapshotOrdinal"
+        - name: address
+          in: path
+          description: Currency Address
+          required: true
+          schema:
+            $ref: "#/components/schemas/Address"
+      responses:
+        200:
+          description: $Currency balance for given address on given snapshot
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Balance"
+
+  /snapshots/latest/ordinal:
+    get:
+      tags:
+        - Snapshot
+      description: Get latest snapshot ordinal
+      responses:
+        200:
+          description: Latest snapshot ordinal
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    $ref: "#/components/schemas/SnapshotOrdinal"
+        404:
+          description: Snapshot not found
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+
+  /snapshots/latest:
+    get:
+      tags:
+        - Snapshot
+      description: Get latest snapshot
+      responses:
+        200:
+          description: Latest snapshot
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: Snapshot not found
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+
+  /snapshots/{ordinal}:
+    get:
+      tags:
+        - Snapshot
+      description: Get snapshot by given ordinal
+      parameters:
+        - name: ordinal
+          in: path
+          description: Snapshot ordinal
+          required: true
+          schema:
+            $ref: "#/components/schemas/SnapshotOrdinal"
+      responses:
+        200:
+          description: Snapshot for given ordinal
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: Snapshot not found
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+
+  /metrics:
+    get:
+      tags:
+        - Metric
+      description: Micrometer metrics
+      responses:
+        200:
+          description: Micrometer metrics
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+          content:
+            text/html:
+              schema:
+                type: string
+
+components:
+  headers:
+    X-Id:
+      description: Node Id
+      schema:
+        $ref: "#/components/schemas/PeerId"
+    X-Session-Token:
+      description: Node session identifier
+      schema:
+        $ref: "#/components/schemas/SessionToken"
+    Request-Signature:
+      description: RSA signature of the response
+      schema:
+        type: string
+        example: "MEQCIE35YM9i8xekL7P9M9Nx3858d9rlY+k2xCIRhgVM/O0nAiBlC4x+GqJ07LVhT5svcn5UWJGOXbch2ampvNkCE2nVOQ=="
+  schemas:
+    PeerId:
+      type: string
+      example: "c7f9a08bdea7ff5f51c8af16e223a1d751bac9c541125d9aef5658e9b7597aee8cba374119ebe83fb9edd8c0b4654af273f2d052e2d7dd5c6160b6d6c284a17c"
+    Host:
+      description: "IP address"
+      type: string
+      example: "1.2.3.4"
+    Port:
+      description: "Port 0-65535"
+      type: integer
+      example: 1234
+    SessionToken:
+      description: "Session UUID token"
+      type: string
+      example: "c87315e1-5ac5-49ce-baa6-e0b1d7aeeb4e"
+    NodeState:
+      description: "Node state"
+      type: string
+      enum:
+        - "Ready"
+        - "Initial"
+        - "ReadyToJoin"
+        - "LoadingGenesis"
+        - "GenesisReady"
+        - "StartingSession"
+        - "SessionStarted"
+        - "WaitingForDownload"
+        - "DownloadInProgress"
+        - "Leaving"
+        - "Offline"
+    Peer:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/PeerId"
+        ip:
+          $ref: "#/components/schemas/Host"
+        publicPort:
+          $ref: "#/components/schemas/Port"
+        p2pPort:
+          $ref: "#/components/schemas/Port"
+        session:
+          $ref: "#/components/schemas/SessionToken"
+        state:
+          $ref: "#/components/schemas/NodeState"
+    SnapshotOrdinal:
+      type: integer
+      example: 156
+    Address:
+      type: string
+      example: "DAG4xPWQj3BpAg2YKg3kbdW2AJcMfZz2SUKqYb1t"
+    TotalSupply:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 12345678
+        ordinal:
+          $ref: "#/components/schemas/SnapshotOrdinal"
+    Balance:
+      type: object
+      properties:
+        balance:
+          type: integer
+          example: 1234
+        ordinal:
+          $ref: "#/components/schemas/SnapshotOrdinal"
+    ClusterSessionToken:
+      type: object
+      properties:
+        token:
+          type: string
+          format: int64
+          example: "20180203073000"

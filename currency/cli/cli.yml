@@ -1,0 +1,100 @@
+openapi: 3.0.3
+info:
+  title: L0/L1 Currency Node - CLI API
+  description: ""
+  contact:
+    email: operators@constellationnetwork.io
+  version: 1.0.0
+
+tags:
+  - name: Cluster
+
+paths:
+  /cluster/join:
+    post:
+      tags:
+        - Cluster
+      description: Join cluster
+      requestBody:
+        description: Peer to join
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PeerToJoin"
+      responses:
+        200:
+          description: Join triggered
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+        409:
+          description: An error occured - peer not allowed to join the network
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+
+  /cluster/leave:
+    post:
+      tags:
+        - Cluster
+      description: Leave cluster
+      responses:
+        200:
+          description: Leave triggered
+          headers:
+            X-Id:
+              $ref: "#/components/headers/X-Id"
+            X-Session-Token:
+              $ref: "#/components/headers/X-Session-Token"
+            Request-Signature:
+              $ref: "#/components/headers/Request-Signature"
+
+components:
+  headers:
+    X-Id:
+      description: Node Id
+      schema:
+        $ref: "#/components/schemas/PeerId"
+    X-Session-Token:
+      description: Node session identifier
+      schema:
+        $ref: "#/components/schemas/SessionToken"
+    Request-Signature:
+      description: RSA signature of the response
+      schema:
+        type: string
+        example: "MEQCIE35YM9i8xekL7P9M9Nx3858d9rlY+k2xCIRhgVM/O0nAiBlC4x+GqJ07LVhT5svcn5UWJGOXbch2ampvNkCE2nVOQ=="
+  schemas:
+    PeerId:
+      type: string
+      example: "c7f9a08bdea7ff5f51c8af16e223a1d751bac9c541125d9aef5658e9b7597aee8cba374119ebe83fb9edd8c0b4654af273f2d052e2d7dd5c6160b6d6c284a17c"
+    Host:
+      description: "IP address"
+      type: string
+      example: "1.2.3.4"
+    Port:
+      description: "Port 0-65535"
+      type: integer
+      example: 1234
+    SessionToken:
+      description: "Session UUID token"
+      type: string
+      example: "c87315e1-5ac5-49ce-baa6-e0b1d7aeeb4e"
+    PeerToJoin:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/PeerId"
+        ip:
+          $ref: "#/components/schemas/Host"
+        p2pPort:
+          $ref: "#/components/schemas/Port"

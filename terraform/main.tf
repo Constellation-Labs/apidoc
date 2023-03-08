@@ -29,13 +29,15 @@ module "openapi_block_explorer" {
   spec_path       = "${path.cwd}/../block-explorer"
 }
 
+# DAG
+
 module "openapi_node" {
   source = "./modules/openapi"
 
   s3_bucket_name  = var.bucket
   s3_prefix       = "node"
   s3_default_file = "l0-public-v2.yml"
-  spec_path       = "${path.cwd}/../node"
+  spec_path       = "${path.cwd}/../dag/node"
 }
 
 module "openapi_node_owner" {
@@ -44,7 +46,7 @@ module "openapi_node_owner" {
   s3_bucket_name  = var.bucket
   s3_prefix       = "node-owner"
   s3_default_file = "v1.yml"
-  spec_path       = "${path.cwd}/../node-owner"
+  spec_path       = "${path.cwd}/../dag/node-owner"
 }
 
 module "openapi_node_public" {
@@ -53,5 +55,34 @@ module "openapi_node_public" {
   s3_bucket_name  = var.bucket
   s3_prefix       = "node-public"
   s3_default_file = "v1.yml"
-  spec_path       = "${path.cwd}/../node-public"
+  spec_path       = "${path.cwd}/../dag/node-public"
+}
+
+# Currency
+
+module "openapi_currency_node_public_l0" {
+  source = "./modules/openapi"
+
+  s3_bucket_name  = var.bucket
+  s3_prefix       = "currency/v${var.currency_version}/l0/public"
+  s3_default_file = "public.yml"
+  spec_path       = "${path.cwd}/../currency/l0"
+}
+
+module "openapi_currency_node_public_l1" {
+  source = "./modules/openapi"
+
+  s3_bucket_name  = var.bucket
+  s3_prefix       = "currency/v${var.currency_version}/l1/public"
+  s3_default_file = "public.yml"
+  spec_path       = "${path.cwd}/../currency/l1"
+}
+
+module "openapi_currency_node_owner" {
+  source = "./modules/openapi"
+
+  s3_bucket_name  = var.bucket
+  s3_prefix       = "currency/v${var.currency_version}/cli"
+  s3_default_file = "cli.yml"
+  spec_path       = "${path.cwd}/../currency/cli"
 }
