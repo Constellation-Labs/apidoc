@@ -25,7 +25,7 @@ resource "null_resource" "openapi" {
       module_path = path.module
       spec_path = var.spec_path
       s3_bucket_name = var.s3_bucket_name
-      s3_prefix = var.s3_prefix
+      s3_prefix = replace(var.s3_prefix, "/", "\\/")
       s3_file_name = var.s3_default_file
     })
   }
