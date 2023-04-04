@@ -24,17 +24,17 @@ paths:
           description: Cluster info
           headers:
             X-Id:
-              $ref: '#/components/headers/X-Id'
+              $ref: '../../models/headers/X-Id.yml'
             X-Session-Token:
-              $ref: '#/components/headers/X-Session-Token'
+              $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
-              $ref: '#/components/headers/Request-Signature'
+              $ref: '../../models/headers/Request-Signature.yml'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Peer'
+                  $ref: '../../models/schemas/Peer.yml'
 
   /cluster/session:
     get:
@@ -46,15 +46,15 @@ paths:
           description: Cluster session token
           headers:
             X-Id:
-              $ref: '#/components/headers/X-Id'
+              $ref: '../../models/headers/X-Id.yml'
             X-Session-Token:
-              $ref: '#/components/headers/X-Session-Token'
+              $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
-              $ref: '#/components/headers/Request-Signature'
+              $ref: '../../models/headers/Request-Signature.yml'
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/ClusterSessionToken'
+                $ref: '../../models/schemas/ClusterSessionToken.yml'
         404:
           description: Cluster session not found
 
@@ -68,15 +68,15 @@ paths:
           description: Total supply on latest snapshot
           headers:
             X-Id:
-              $ref: '#/components/headers/X-Id'
+              $ref: '../../models/headers/X-Id.yml'
             X-Session-Token:
-              $ref: '#/components/headers/X-Session-Token'
+              $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
-              $ref: '#/components/headers/Request-Signature'
+              $ref: '../../models/headers/Request-Signature.yml'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TotalSupply'
+                $ref: '../../models/schemas/TotalSupply.yml'
 
   /dag/{ordinal}/total-supply:
     get:
@@ -89,21 +89,21 @@ paths:
           description: Snapshot ordinal
           required: true
           schema:
-            $ref: '#/components/schemas/SnapshotOrdinal'
+            $ref: '../../models/schemas/SnapshotOrdinal.yml'
       responses:
         200:
           description: Total supply on given snapshot
           headers:
             X-Id:
-              $ref: '#/components/headers/X-Id'
+              $ref: '../../models/headers/X-Id.yml'
             X-Session-Token:
-              $ref: '#/components/headers/X-Session-Token'
+              $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
-              $ref: '#/components/headers/Request-Signature'
+              $ref: '../../models/headers/Request-Signature.yml'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TotalSupply'
+                $ref: '../../models/schemas/TotalSupply.yml'
 
   /dag/{address}/balance:
     get:
@@ -116,21 +116,21 @@ paths:
           description: DAG Address
           required: true
           schema:
-            $ref: '#/components/schemas/Address'
+            $ref: '../../models/schemas/Address.yml'
       responses:
         200:
           description: $DAG balance for given address
           headers:
             X-Id:
-              $ref: '#/components/headers/X-Id'
+              $ref: '../../models/headers/X-Id.yml'
             X-Session-Token:
-              $ref: '#/components/headers/X-Session-Token'
+              $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
-              $ref: '#/components/headers/Request-Signature'
+              $ref: '../../models/headers/Request-Signature.yml'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Balance'
+                $ref: '../../models/schemas/BalanceWithOrdinal.yml'
 
   /dag/{ordinal}/{address}/balance:
     get:
@@ -143,27 +143,27 @@ paths:
           description: Snapshot ordinal
           required: true
           schema:
-            $ref: '#/components/schemas/SnapshotOrdinal'
+            $ref: '../../models/schemas/SnapshotOrdinal.yml'
         - name: address
           in: path
           description: DAG Address
           required: true
           schema:
-            $ref: '#/components/schemas/Address'
+            $ref: '../../models/schemas/Address.yml'
       responses:
         200:
           description: $DAG balance for given address on given snapshot
           headers:
             X-Id:
-              $ref: '#/components/headers/X-Id'
+              $ref: '../../models/headers/X-Id.yml'
             X-Session-Token:
-              $ref: '#/components/headers/X-Session-Token'
+              $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
-              $ref: '#/components/headers/Request-Signature'
+              $ref: '../../models/headers/Request-Signature.yml'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Balance'
+                $ref: '../../models/schemas/BalanceWithOrdinal.yml'
 
   /global-snapshots/latest/ordinal:
     get:
@@ -175,27 +175,27 @@ paths:
           description: Latest global snapshot ordinal
           headers:
             X-Id:
-              $ref: '#/components/headers/X-Id'
+              $ref: '../../models/headers/X-Id.yml'
             X-Session-Token:
-              $ref: '#/components/headers/X-Session-Token'
+              $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
-              $ref: '#/components/headers/Request-Signature'
+              $ref: '../../models/headers/Request-Signature.yml'
           content:
             application/json:
               schema:
                 type: object
                 properties:
                   value:
-                    $ref: '#/components/schemas/SnapshotOrdinal'
+                    $ref: '../../models/schemas/SnapshotOrdinal.yml'
         404:
-          description: State channel not found
+          description: Latest global snapshot ordinal not found
           headers:
             X-Id:
-              $ref: '#/components/headers/X-Id'
+              $ref: '../../models/headers/X-Id.yml'
             X-Session-Token:
-              $ref: '#/components/headers/X-Session-Token'
+              $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
-              $ref: '#/components/headers/Request-Signature'
+              $ref: '../../models/headers/Request-Signature.yml'
 
   /global-snapshots/latest:
     get:
@@ -207,25 +207,61 @@ paths:
           description: Latest global snapshot
           headers:
             X-Id:
-              $ref: '#/components/headers/X-Id'
+              $ref: '../../models/headers/X-Id.yml'
             X-Session-Token:
-              $ref: '#/components/headers/X-Session-Token'
+              $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
-              $ref: '#/components/headers/Request-Signature'
+              $ref: '../../models/headers/Request-Signature.yml'
           content:
             application/octet-stream:
               schema:
                 type: string
                 format: binary
+            application/json:
+              schema:
+                $ref: '../../models/schemas/SignedGlobalIncrementalSnapshot.yml'
         404:
-          description: State channel not found
+          description: Latest global snapshot not found
           headers:
             X-Id:
-              $ref: '#/components/headers/X-Id'
+              $ref: '../../models/headers/X-Id.yml'
             X-Session-Token:
-              $ref: '#/components/headers/X-Session-Token'
+              $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
-              $ref: '#/components/headers/Request-Signature'
+              $ref: '../../models/headers/Request-Signature.yml'
+
+  /global-snapshots/latest/combined:
+    get:
+      tags:
+        - Global snapshot
+      description: Get latest global snapshot with state
+      responses:
+        200:
+          description: Latest signed global snapshot with state
+          headers:
+            X-Id:
+              $ref: '../../models/headers/X-Id.yml'
+            X-Session-Token:
+              $ref: '../../models/headers/X-Session-Token.yml'
+            Request-Signature:
+              $ref: '../../models/headers/Request-Signature.yml'
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            application/json:
+              schema:
+                $ref: '../../models/schemas/SignedGlobalIncrementalSnapshotCombined.yml'
+        404:
+          description: Latest signed global snapshot with state not found
+          headers:
+            X-Id:
+              $ref: '../../models/headers/X-Id.yml'
+            X-Session-Token:
+              $ref: '../../models/headers/X-Session-Token.yml'
+            Request-Signature:
+              $ref: '../../models/headers/Request-Signature.yml'
 
   /global-snapshots/{ordinal}:
     get:
@@ -238,31 +274,34 @@ paths:
           description: Snapshot ordinal
           required: true
           schema:
-            $ref: '#/components/schemas/SnapshotOrdinal'
+            $ref: '../../models/schemas/SnapshotOrdinal.yml'
       responses:
         200:
           description: Global snapshot for given ordinal
           headers:
             X-Id:
-              $ref: '#/components/headers/X-Id'
+              $ref: '../../models/headers/X-Id.yml'
             X-Session-Token:
-              $ref: '#/components/headers/X-Session-Token'
+              $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
-              $ref: '#/components/headers/Request-Signature'
+              $ref: '../../models/headers/Request-Signature.yml'
           content:
             application/octet-stream:
               schema:
                 type: string
                 format: binary
+            application/json:
+              schema:
+                $ref: '../../models/schemas/SignedGlobalIncrementalSnapshot.yml'
         404:
-          description: Global snapshot not found
+          description: Global snapshot for given ordinal not found
           headers:
             X-Id:
-              $ref: '#/components/headers/X-Id'
+              $ref: '../../models/headers/X-Id.yml'
             X-Session-Token:
-              $ref: '#/components/headers/X-Session-Token'
+              $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
-              $ref: '#/components/headers/Request-Signature'
+              $ref: '../../models/headers/Request-Signature.yml'
 
   /state-channels/{address}/snapshot:
     post:
@@ -275,7 +314,7 @@ paths:
           description: State channel address
           required: true
           schema:
-            $ref: '#/components/schemas/Address'
+            $ref: '../../models/schemas/Address.yml'
       requestBody:
         description: Signed state channel snapshot
         required: true
@@ -289,20 +328,20 @@ paths:
           description: Received snapshot for a given state channel
           headers:
             X-Id:
-              $ref: '#/components/headers/X-Id'
+              $ref: '../../models/headers/X-Id.yml'
             X-Session-Token:
-              $ref: '#/components/headers/X-Session-Token'
+              $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
-              $ref: '#/components/headers/Request-Signature'
+              $ref: '../../models/headers/Request-Signature.yml'
         404:
           description: State channel not found
           headers:
             X-Id:
-              $ref: '#/components/headers/X-Id'
+              $ref: '../../models/headers/X-Id.yml'
             X-Session-Token:
-              $ref: '#/components/headers/X-Session-Token'
+              $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
-              $ref: '#/components/headers/Request-Signature'
+              $ref: '../../models/headers/Request-Signature.yml'
 
   /metrics:
     get:
@@ -314,103 +353,12 @@ paths:
           description: Micrometer metrics
           headers:
             X-Id:
-              $ref: '#/components/headers/X-Id'
+              $ref: '../../models/headers/X-Id.yml'
             X-Session-Token:
-              $ref: '#/components/headers/X-Session-Token'
+              $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
-              $ref: '#/components/headers/Request-Signature'
+              $ref: '../../models/headers/Request-Signature.yml'
           content:
             text/html:
               schema:
                 type: string
-
-components:
-  headers:
-    X-Id:
-      description: Node Id
-      schema:
-        $ref: '#/components/schemas/PeerId'
-    X-Session-Token:
-      description: Node session identifier
-      schema:
-        $ref: '#/components/schemas/SessionToken'
-    Request-Signature:
-      description: RSA signature of the response
-      schema:
-        type: string
-        example: 'MEQCIE35YM9i8xekL7P9M9Nx3858d9rlY+k2xCIRhgVM/O0nAiBlC4x+GqJ07LVhT5svcn5UWJGOXbch2ampvNkCE2nVOQ=='
-  schemas:
-    PeerId:
-      type: string
-      example: 'c7f9a08bdea7ff5f51c8af16e223a1d751bac9c541125d9aef5658e9b7597aee8cba374119ebe83fb9edd8c0b4654af273f2d052e2d7dd5c6160b6d6c284a17c'
-    Host:
-      description: 'IP address'
-      type: string
-      example: '1.2.3.4'
-    Port:
-      description: 'Port 0-65535'
-      type: integer
-      example: 1234
-    SessionToken:
-      description: 'Session UUID token'
-      type: string
-      example: 'c87315e1-5ac5-49ce-baa6-e0b1d7aeeb4e'
-    NodeState:
-      description: 'Node state'
-      type: string
-      enum:
-        - 'Ready'
-        - 'Initial'
-        - 'ReadyToJoin'
-        - 'LoadingGenesis'
-        - 'GenesisReady'
-        - 'StartingSession'
-        - 'SessionStarted'
-        - 'WaitingForDownload'
-        - 'DownloadInProgress'
-        - 'Leaving'
-        - 'Offline'
-    Peer:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/PeerId'
-        ip:
-          $ref: '#/components/schemas/Host'
-        publicPort:
-          $ref: '#/components/schemas/Port'
-        p2pPort:
-          $ref: '#/components/schemas/Port'
-        session:
-          $ref: '#/components/schemas/SessionToken'
-        state:
-          $ref: '#/components/schemas/NodeState'
-    SnapshotOrdinal:
-      type: integer
-      example: 156
-    Address:
-      type: string
-      example: 'DAG4xPWQj3BpAg2YKg3kbdW2AJcMfZz2SUKqYb1t'
-    TotalSupply:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 12345678
-        ordinal:
-          $ref: '#/components/schemas/SnapshotOrdinal'
-    Balance:
-      type: object
-      properties:
-        balance:
-          type: integer
-          example: 1234
-        ordinal:
-          $ref: '#/components/schemas/SnapshotOrdinal'
-    ClusterSessionToken:
-      type: object
-      properties:
-        token:
-          type: string
-          format: int64
-          example: "20180203073000"
