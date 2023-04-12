@@ -27,11 +27,11 @@ jobs:
         run: npm i -g @redocly/cli@1.0.0-beta.124
 
       - name: Bundle DAG api docs
-        working-directory: dag/node/
+        working-directory: dag/
         run: |
-          redocly bundle l0-public-v2.yml -o l0-public-v2.yml
-          redocly bundle l1-public-v2.yml -o l1-public-v2.yml
-          redocly bundle l0-cli-v2.yml -o l0-cli-v2.yml
+          redocly bundle l0/public.yml -o l0/public.yml
+          redocly bundle l1/public.yml -o l1/public.yml
+          redocly bundle cli/cli.yml -o cli/cli.yml
 
       - name: Bundle Currency api docs
         working-directory: currency/
