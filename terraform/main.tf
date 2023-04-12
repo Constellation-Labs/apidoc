@@ -31,31 +31,31 @@ module "openapi_block_explorer" {
 
 # DAG
 
-module "openapi_node" {
+module "openapi_dag_node_public_l0" {
   source = "./modules/openapi"
 
   s3_bucket_name  = var.bucket
-  s3_prefix       = "node"
-  s3_default_file = "l0-public-v2.yml"
-  spec_path       = "${path.cwd}/../dag/node"
+  s3_prefix       = "dag/l0/public"
+  s3_default_file = "public.yml"
+  spec_path       = "${path.cwd}/../dag/l0"
 }
 
-module "openapi_node_owner" {
+module "openapi_dag_node_public_l1" {
   source = "./modules/openapi"
 
   s3_bucket_name  = var.bucket
-  s3_prefix       = "node-owner"
-  s3_default_file = "v1.yml"
-  spec_path       = "${path.cwd}/../dag/node-owner"
+  s3_prefix       = "dag/l1/public"
+  s3_default_file = "public.yml"
+  spec_path       = "${path.cwd}/../dag/l1"
 }
 
-module "openapi_node_public" {
+module "openapi_dag_node_owner" {
   source = "./modules/openapi"
 
   s3_bucket_name  = var.bucket
-  s3_prefix       = "node-public"
-  s3_default_file = "v1.yml"
-  spec_path       = "${path.cwd}/../dag/node-public"
+  s3_prefix       = "dag/cli"
+  s3_default_file = "cli.yml"
+  spec_path       = "${path.cwd}/../dag/cli"
 }
 
 # Currency
