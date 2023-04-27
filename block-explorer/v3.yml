@@ -8,6 +8,7 @@ info:
 
 tags:
   - name: Global snapshot
+  - name: Currency snapshot
   - name: Block
   - name: Balance
   - name: Transaction
@@ -185,7 +186,7 @@ paths:
     get:
       tags:
         - Block
-      summary: Get block by hash
+      summary: Get DAG block by hash
       parameters:
         - name: hash
           in: path
@@ -214,7 +215,7 @@ paths:
     get:
       tags:
         - Transaction
-      summary: Get transactions
+      summary: Get DAG transactions
       parameters:
         - name: limit
           in: query
@@ -268,7 +269,7 @@ paths:
     get:
       tags:
         - Transaction
-      summary: Get transaction by hash
+      summary: Get DAG transaction by hash
       parameters:
         - name: hash
           in: path
@@ -297,7 +298,7 @@ paths:
     get:
       tags:
         - Transaction
-      summary: Get transactions from the latest snapshot
+      summary: Get DAG transactions from the latest snapshot
       parameters:
         - name: limit
           in: query
@@ -351,7 +352,7 @@ paths:
     get:
       tags:
         - Transaction
-      summary: Get transactions for the given global snapshot
+      summary: Get DAG transactions for the given global snapshot
       parameters:
         - name: hash
           in: path
@@ -411,7 +412,7 @@ paths:
     get:
       tags:
         - Transaction
-      summary: Get transactions for the given global snapshot
+      summary: Get DAG transactions for the given global snapshot
       parameters:
         - name: ordinal
           in: path
@@ -471,7 +472,7 @@ paths:
     get:
       tags:
         - Transaction
-      summary: Get transactions for the given address
+      summary: Get DAG transactions for the given address
       parameters:
         - name: address
           in: path
@@ -531,7 +532,7 @@ paths:
     get:
       tags:
         - Transaction
-      summary: Get sent transactions by the given address
+      summary: Get sent DAG transactions by the given address
       parameters:
         - name: address
           in: path
@@ -591,7 +592,7 @@ paths:
     get:
       tags:
         - Transaction
-      summary: Get received transactions by the given address
+      summary: Get received DAG transactions by the given address
       parameters:
         - name: address
           in: path
@@ -651,7 +652,7 @@ paths:
     get:
       tags:
         - Balance
-      summary: Get balance for the given address
+      summary: Get DAG balance for the given address
       parameters:
         - name: address
           in: path
@@ -668,6 +669,776 @@ paths:
       responses:
         200:
           description: Balance for the given address from latest or given global snapshot
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                      balance:
+                        type: integer
+                        format: int64
+                      ordinal:
+                        type: integer
+                        format: int64
+
+  /currency/{identifier}/snapshots/latest:
+    get:
+      tags:
+        - Currency snapshot
+      summary: Get latest currency snapshot
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Latest currency snapshot
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/CurrencySnapshot'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+  /currency/{identifier}/snapshots/{hash}:
+    get:
+      tags:
+        - Currency snapshot
+      summary: Get currency snapshot by hash
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+        - name: hash
+          in: path
+          description: Hash of currency snapshot to return
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Currency snapshot for given hash
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/CurrencySnapshot'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+  /currency/{identifier}/snapshots/{ordinal}:
+    get:
+      tags:
+        - Currency snapshot
+      summary: Get currency snapshot by ordinal
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+        - name: ordinal
+          in: path
+          description: Ordinal of currency snapshot to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Currency snapshot for given ordinal
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/CurrencySnapshot'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+  /currency/{identifier}/snapshots/latest/rewards:
+    get:
+      tags:
+        - Currency snapshot
+      summary: Get rewards for latest currency snapshot
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Rewards for latest currency snapshot
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RewardTransaction'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+  /currency/{identifier}/snapshots/{hash}/rewards:
+    get:
+      tags:
+        - Currency snapshot
+      summary: Get rewards for given currency snapshot
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+        - name: hash
+          in: path
+          description: Hash of currency snapshot to return rewards from
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Rewards for given currency snapshot
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RewardTransaction'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+  /currency/{identifier}/snapshots/{ordinal}/rewards:
+    get:
+      tags:
+        - Currency snapshot
+      summary: Get rewards for given currency snapshot
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+        - name: ordinal
+          in: path
+          description: Ordinal of currency snapshot to return rewards from
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Rewards for given currency snapshot
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RewardTransaction'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+  /currency/{identifier}/blocks/{hash}:
+    get:
+      tags:
+        - Block
+      summary: Get currency block by hash
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+        - name: hash
+          in: path
+          description: Hash of block to return
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Block for given hash
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Block'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+  /currency/{identifier}/transactions:
+    get:
+      tags:
+        - Transaction
+      summary: Get currency transactions
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+        - name: search_after
+          in: query
+          description: Hash to search after given transaction. Please keep in mind that it's mutually exclusive with search_before.
+          required: false
+          schema:
+            type: string
+        - name: search_before
+          in: query
+          description: Hash to search before given transaction. Please keep in mind that it's mutually exclusive with search_after.
+          required: false
+          schema:
+            type: string
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Both received and sent currency transactions
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+  /currency/{identifier}/transactions/{hash}:
+    get:
+      tags:
+        - Transaction
+      summary: Get currency transaction by hash
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+        - name: hash
+          in: path
+          description: Hash of currency transaction to return
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Transaction for given hash
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Transaction'
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+  /currency/{identifier}/snapshots/latest/transactions:
+    get:
+      tags:
+        - Transaction
+      summary: Get currency transactions from the latest snapshot
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+        - name: search_after
+          in: query
+          description: Hash to search after given transaction. Please keep in mind that it's mutually exclusive with search_before.
+          required: false
+          schema:
+            type: string
+        - name: search_before
+          in: query
+          description: Hash to search before given transaction. Please keep in mind that it's mutually exclusive with search_after.
+          required: false
+          schema:
+            type: string
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Currency transactions from the latest snapshot
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+  /currency/{identifier}/snapshots/{hash}/transactions:
+    get:
+      tags:
+        - Transaction
+      summary: Get currency transactions for the given global snapshot
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+        - name: hash
+          in: path
+          description: Hash of the currency snapshot to return transactions from
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+        - name: search_after
+          in: query
+          description: Hash to search after given transaction. Please keep in mind that it's mutually exclusive with search_before.
+          required: false
+          schema:
+            type: string
+        - name: search_before
+          in: query
+          description: Hash to search before given transaction. Please keep in mind that it's mutually exclusive with search_after.
+          required: false
+          schema:
+            type: string
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Transactions from the given currency snapshot
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+  /currency/{identifier}/snapshots/{ordinal}/transactions:
+    get:
+      tags:
+        - Transaction
+      summary: Get transactions for the given currency snapshot
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+        - name: ordinal
+          in: path
+          description: Ordinal of the currency snapshot to return transactions from
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+        - name: search_after
+          in: query
+          description: Hash to search after given transaction. Please keep in mind that it's mutually exclusive with search_before.
+          required: false
+          schema:
+            type: string
+        - name: search_before
+          in: query
+          description: Hash to search before given transaction. Please keep in mind that it's mutually exclusive with search_after.
+          required: false
+          schema:
+            type: string
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Transactions from the given currency snapshot
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+  /currency/{identifier}/addresses/{address}/transactions:
+    get:
+      tags:
+        - Transaction
+      summary: Get currency transactions for the given address
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+        - name: address
+          in: path
+          description: Wallet address
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+        - name: search_after
+          in: query
+          description: Hash to search after given transaction. Please keep in mind that it's mutually exclusive with search_before.
+          required: false
+          schema:
+            type: string
+        - name: search_before
+          in: query
+          description: Hash to search before given transaction. Please keep in mind that it's mutually exclusive with search_after.
+          required: false
+          schema:
+            type: string
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Both received and sent currency transactions for the given address
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+  /currency/{identifier}/addresses/{address}/transactions/sent:
+    get:
+      tags:
+        - Transaction
+      summary: Get sent currency transactions by the given address
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+        - name: address
+          in: path
+          description: Wallet address
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+        - name: search_after
+          in: query
+          description: Hash to search after given transaction. Please keep in mind that it's mutually exclusive with search_before.
+          required: false
+          schema:
+            type: string
+        - name: search_before
+          in: query
+          description: Hash to search before given transaction. Please keep in mind that it's mutually exclusive with search_after.
+          required: false
+          schema:
+            type: string
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Sent currency transactions by the given address
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+  /currency/{identifier}/addresses/{address}/transactions/received:
+    get:
+      tags:
+        - Transaction
+      summary: Get received currency transactions by the given address
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+        - name: address
+          in: path
+          description: Wallet address
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+        - name: search_after
+          in: query
+          description: Hash to search after given transaction. Please keep in mind that it's mutually exclusive with search_before.
+          required: false
+          schema:
+            type: string
+        - name: search_before
+          in: query
+          description: Hash to search before given transaction. Please keep in mind that it's mutually exclusive with search_after.
+          required: false
+          schema:
+            type: string
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Received currency transactions by the given address
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+                
+  /currency/{identifier}/addresses/{address}/balance:
+    get:
+      tags:
+        - Balance
+      summary: Get currency balance for the given address
+      parameters:
+        - name: identifier
+          in: path
+          description: State channel identifier
+          required: true
+          schema:
+            type: string
+        - name: address
+          in: path
+          description: Wallet address
+          required: true
+          schema:
+            type: string
+        - name: ordinal
+          in: query
+          description: Global snapshot ordinal
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Balance for the given address from latest or given currency snapshot
           content:
             'application/json':
               schema:
@@ -832,4 +1603,40 @@ components:
         blockHash: 0923bd4a63353040589547cfed00f2660fb736ce694199384f1df2adaac54fe6
         timestamp: "2020-05-12T10:16:14Z"
         transactionOriginal:
+    CurrencySnapshot:
+      type: object
+      properties:
+        hash:
+          type: string
+        ordinal:
+          type: integer
+          format: int64
+        height:
+          type: integer
+          format: int64
+        subHeight:
+          type: integer
+          format: int64
+        lastSnapshotHash:
+          type: string
+        dataHash:
+          type: string
+        blocks:
+          type: array
+          items:
+            type: string
+        timestamp:
+          type: string
+          title: ISOString
+      example:
+        hash: 1ae6e0f9161b7a29c96e8accb853fb479e0ea026832850ff5def773b5ff00c00
+        ordinal: 58183
+        height: 58100
+        subHeight: 2
+        lastSnapshotHash: 0922bd4a63353040589547cfed00f2660fb736ce694199384f1df2edaac54fe6
+        dataHash: af316ecb91a8ee7ae99210702b2d4758f30cdde3bf61e3d8e787d74681f90a6e
+        blocks:
+          - 0922bd4a63353040589547cfed00f2660fb736ce694199384f1df2adaac54fe6
+          - 0c27a295e1f58e41582538b8deb18a3aea4ae4b52b7e53c529ed80c03eaaeed1
+        timestamp: "2020-05-12T10:16:14Z"
 
