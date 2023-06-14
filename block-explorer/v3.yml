@@ -707,7 +707,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/CurrencySnapshot'
+                    $ref: '#/components/schemas/Snapshot'
         404:
           description: Not found
           content:
@@ -742,7 +742,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/CurrencySnapshot'
+                    $ref: '#/components/schemas/Snapshot'
         404:
           description: Not found
           content:
@@ -778,7 +778,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/CurrencySnapshot'
+                    $ref: '#/components/schemas/Snapshot'
         404:
           description: Not found
           content:
@@ -1086,7 +1086,7 @@ paths:
     get:
       tags:
         - Transaction
-      summary: Get currency transactions for the given global snapshot
+      summary: Get currency transactions for the given snapshot
       parameters:
         - name: identifier
           in: path
@@ -1432,7 +1432,7 @@ paths:
             type: string
         - name: ordinal
           in: query
-          description: Global snapshot ordinal
+          description: Currency snapshot ordinal
           required: false
           schema:
             type: string
@@ -1603,40 +1603,3 @@ components:
         blockHash: 0923bd4a63353040589547cfed00f2660fb736ce694199384f1df2adaac54fe6
         timestamp: "2020-05-12T10:16:14Z"
         transactionOriginal:
-    CurrencySnapshot:
-      type: object
-      properties:
-        hash:
-          type: string
-        ordinal:
-          type: integer
-          format: int64
-        height:
-          type: integer
-          format: int64
-        subHeight:
-          type: integer
-          format: int64
-        lastSnapshotHash:
-          type: string
-        dataHash:
-          type: string
-        blocks:
-          type: array
-          items:
-            type: string
-        timestamp:
-          type: string
-          title: ISOString
-      example:
-        hash: 1ae6e0f9161b7a29c96e8accb853fb479e0ea026832850ff5def773b5ff00c00
-        ordinal: 58183
-        height: 58100
-        subHeight: 2
-        lastSnapshotHash: 0922bd4a63353040589547cfed00f2660fb736ce694199384f1df2edaac54fe6
-        dataHash: af316ecb91a8ee7ae99210702b2d4758f30cdde3bf61e3d8e787d74681f90a6e
-        blocks:
-          - 0922bd4a63353040589547cfed00f2660fb736ce694199384f1df2adaac54fe6
-          - 0c27a295e1f58e41582538b8deb18a3aea4ae4b52b7e53c529ed80c03eaaeed1
-        timestamp: "2020-05-12T10:16:14Z"
-
