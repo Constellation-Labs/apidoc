@@ -196,6 +196,15 @@ paths:
               $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
               $ref: '../../models/headers/Request-Signature.yml'
+        503:
+          description: Node is not Ready yet
+          headers:
+            X-Id:
+              $ref: '../../models/headers/X-Id.yml'
+            X-Session-Token:
+              $ref: '../../models/headers/X-Session-Token.yml'
+            Request-Signature:
+              $ref: '../../models/headers/Request-Signature.yml'
 
   /global-snapshots/latest:
     get:
@@ -222,6 +231,15 @@ paths:
                 $ref: '../../models/schemas/SignedGlobalIncrementalSnapshot.yml'
         404:
           description: Latest global snapshot not found
+          headers:
+            X-Id:
+              $ref: '../../models/headers/X-Id.yml'
+            X-Session-Token:
+              $ref: '../../models/headers/X-Session-Token.yml'
+            Request-Signature:
+              $ref: '../../models/headers/Request-Signature.yml'
+        503:
+          description: Node is not Ready yet
           headers:
             X-Id:
               $ref: '../../models/headers/X-Id.yml'
@@ -262,6 +280,15 @@ paths:
               $ref: '../../models/headers/X-Session-Token.yml'
             Request-Signature:
               $ref: '../../models/headers/Request-Signature.yml'
+        503:
+          description: Node is not Ready yet
+          headers:
+            X-Id:
+              $ref: '../../models/headers/X-Id.yml'
+            X-Session-Token:
+              $ref: '../../models/headers/X-Session-Token.yml'
+            Request-Signature:
+              $ref: '../../models/headers/Request-Signature.yml'
 
   /global-snapshots/{ordinal}:
     get:
@@ -295,6 +322,15 @@ paths:
                 $ref: '../../models/schemas/SignedGlobalIncrementalSnapshot.yml'
         404:
           description: Global snapshot for given ordinal not found
+          headers:
+            X-Id:
+              $ref: '../../models/headers/X-Id.yml'
+            X-Session-Token:
+              $ref: '../../models/headers/X-Session-Token.yml'
+            Request-Signature:
+              $ref: '../../models/headers/Request-Signature.yml'
+        503:
+          description: Node is not Ready yet
           headers:
             X-Id:
               $ref: '../../models/headers/X-Id.yml'
