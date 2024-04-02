@@ -77,33 +77,6 @@ paths:
               schema:
                 $ref: '../../models/schemas/TotalSupply.yml'
 
-  /currency/{ordinal}/total-supply:
-    get:
-      tags:
-        - Currency
-      description: Get $Currency total supply on given snapshot
-      parameters:
-        - name: ordinal
-          in: path
-          description: Snapshot ordinal
-          required: true
-          schema:
-            $ref: '../../models/schemas/SnapshotOrdinal.yml'
-      responses:
-        200:
-          description: Total supply on given snapshot
-          headers:
-            X-Id:
-              $ref: '../../models/headers/X-Id.yml'
-            X-Session-Token:
-              $ref: '../../models/headers/X-Session-Token.yml'
-            Request-Signature:
-              $ref: '../../models/headers/Request-Signature.yml'
-          content:
-            application/json:
-              schema:
-                $ref: '../../models/schemas/TotalSupply.yml'
-
   /currency/{address}/balance:
     get:
       tags:
@@ -119,39 +92,6 @@ paths:
       responses:
         200:
           description: $Currency balance for given address
-          headers:
-            X-Id:
-              $ref: '../../models/headers/X-Id.yml'
-            X-Session-Token:
-              $ref: '../../models/headers/X-Session-Token.yml'
-            Request-Signature:
-              $ref: '../../models/headers/Request-Signature.yml'
-          content:
-            application/json:
-              schema:
-                $ref: '../../models/schemas/BalanceWithOrdinal.yml'
-
-  /currency/{ordinal}/{address}/balance:
-    get:
-      tags:
-        - Currency
-      description: Get $Currency balance for given address on given snapshot
-      parameters:
-        - name: ordinal
-          in: path
-          description: Snapshot ordinal
-          required: true
-          schema:
-            $ref: '../../models/schemas/SnapshotOrdinal.yml'
-        - name: address
-          in: path
-          description: Currency Address
-          required: true
-          schema:
-            $ref: '../../models/schemas/Address.yml'
-      responses:
-        200:
-          description: $Currency balance for given address on given snapshot
           headers:
             X-Id:
               $ref: '../../models/headers/X-Id.yml'
