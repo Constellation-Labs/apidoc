@@ -78,33 +78,6 @@ paths:
               schema:
                 $ref: '../../models/schemas/TotalSupply.yml'
 
-  /dag/{ordinal}/total-supply:
-    get:
-      tags:
-        - DAG
-      description: Get $DAG total supply on given snapshot
-      parameters:
-        - name: ordinal
-          in: path
-          description: Snapshot ordinal
-          required: true
-          schema:
-            $ref: '../../models/schemas/SnapshotOrdinal.yml'
-      responses:
-        200:
-          description: Total supply on given snapshot
-          headers:
-            X-Id:
-              $ref: '../../models/headers/X-Id.yml'
-            X-Session-Token:
-              $ref: '../../models/headers/X-Session-Token.yml'
-            Request-Signature:
-              $ref: '../../models/headers/Request-Signature.yml'
-          content:
-            application/json:
-              schema:
-                $ref: '../../models/schemas/TotalSupply.yml'
-
   /dag/{address}/balance:
     get:
       tags:
@@ -120,39 +93,6 @@ paths:
       responses:
         200:
           description: $DAG balance for given address
-          headers:
-            X-Id:
-              $ref: '../../models/headers/X-Id.yml'
-            X-Session-Token:
-              $ref: '../../models/headers/X-Session-Token.yml'
-            Request-Signature:
-              $ref: '../../models/headers/Request-Signature.yml'
-          content:
-            application/json:
-              schema:
-                $ref: '../../models/schemas/BalanceWithOrdinal.yml'
-
-  /dag/{ordinal}/{address}/balance:
-    get:
-      tags:
-        - DAG
-      description: Get $DAG balance for given address on given snapshot
-      parameters:
-        - name: ordinal
-          in: path
-          description: Snapshot ordinal
-          required: true
-          schema:
-            $ref: '../../models/schemas/SnapshotOrdinal.yml'
-        - name: address
-          in: path
-          description: DAG Address
-          required: true
-          schema:
-            $ref: '../../models/schemas/Address.yml'
-      responses:
-        200:
-          description: $DAG balance for given address on given snapshot
           headers:
             X-Id:
               $ref: '../../models/headers/X-Id.yml'
