@@ -647,7 +647,7 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFound'
-                
+
   /addresses/{address}/balance:
     get:
       tags:
@@ -707,7 +707,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/Snapshot'
+                    $ref: '#/components/schemas/CurrencySnapshot'
         404:
           description: Not found
           content:
@@ -742,7 +742,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/Snapshot'
+                    $ref: '#/components/schemas/CurrencySnapshot'
         404:
           description: Not found
           content:
@@ -778,7 +778,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/Snapshot'
+                    $ref: '#/components/schemas/CurrencySnapshot'
         404:
           description: Not found
           content:
@@ -1411,7 +1411,7 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/NotFound'
-                
+
   /currency/{identifier}/addresses/{address}/balance:
     get:
       tags:
@@ -1467,6 +1467,25 @@ components:
           type: array
           items:
             type: string
+    CurrencySnapshot:
+      allOf:
+        - $ref: '#/components/schemas/Snapshot'
+        - type: object
+          properties:
+            fee:
+              type: integer
+              format: int64
+              nullable: true
+            stakingAddress:
+              type: string
+              nullable: true
+            ownerAddress:
+              type: string
+              nullable: true
+            sizeInKB:
+              type: integer
+              format: int64
+              nullable: true
     Snapshot:
       type: object
       properties:
