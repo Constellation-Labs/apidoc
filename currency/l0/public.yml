@@ -4,7 +4,7 @@ info:
   description: ""
   contact:
     email: operators@constellationnetwork.io
-  version: 1.0.0
+  version: 2.3.4
 
 tags:
   - name: Cluster
