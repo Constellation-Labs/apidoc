@@ -40,6 +40,11 @@ jobs:
           redocly bundle l1/public.yml -o l1/public.yml
           redocly bundle cli/cli.yml -o cli/cli.yml
 
+      - name: Bundle Data api docs
+        working-directory: currency/
+        run: |
+          redocly bundle l1-data/public.yml -o l1-data/public.yml
+
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v1
 
