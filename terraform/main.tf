@@ -83,6 +83,15 @@ module "openapi_currency_node_public_l1" {
   spec_path       = "${path.cwd}/../currency/l1"
 }
 
+module "openapi_currency_node_public_l1_data" {
+  source = "./modules/openapi"
+
+  s3_bucket_name  = module.bucket.bucket
+  s3_prefix       = "currency/v${var.currency_version}/l1-data/public"
+  s3_default_file = "public.yml"
+  spec_path       = "${path.cwd}/../currency/l1-data"
+}
+
 module "openapi_currency_node_owner" {
   source = "./modules/openapi"
 
