@@ -20,10 +20,15 @@ provider "aws" {
   region = var.aws_region
 }
 
+module "bucket" {
+  source = "./modules/bucket"
+  bucket = var.bucket
+}
+
 module "openapi_block_explorer" {
   source = "./modules/openapi"
 
-  s3_bucket_name  = var.bucket
+  s3_bucket_name  = module.bucket.bucket
   s3_prefix       = "block-explorer"
   s3_default_file = "v3.yml"
   spec_path       = "${path.cwd}/../block-explorer"
@@ -34,7 +39,7 @@ module "openapi_block_explorer" {
 module "openapi_dag_node_public_l0" {
   source = "./modules/openapi"
 
-  s3_bucket_name  = var.bucket
+  s3_bucket_name  = module.bucket.bucket
   s3_prefix       = "dag/l0/public"
   s3_default_file = "public.yml"
   spec_path       = "${path.cwd}/../dag/l0"
@@ -43,7 +48,7 @@ module "openapi_dag_node_public_l0" {
 module "openapi_dag_node_public_l1" {
   source = "./modules/openapi"
 
-  s3_bucket_name  = var.bucket
+  s3_bucket_name  = module.bucket.bucket
   s3_prefix       = "dag/l1/public"
   s3_default_file = "public.yml"
   spec_path       = "${path.cwd}/../dag/l1"
@@ -52,7 +57,7 @@ module "openapi_dag_node_public_l1" {
 module "openapi_dag_node_owner" {
   source = "./modules/openapi"
 
-  s3_bucket_name  = var.bucket
+  s3_bucket_name  = module.bucket.bucket
   s3_prefix       = "dag/cli"
   s3_default_file = "cli.yml"
   spec_path       = "${path.cwd}/../dag/cli"
@@ -63,7 +68,7 @@ module "openapi_dag_node_owner" {
 module "openapi_currency_node_public_l0" {
   source = "./modules/openapi"
 
-  s3_bucket_name  = var.bucket
+  s3_bucket_name  = module.bucket.bucket
   s3_prefix       = "currency/v${var.currency_version}/l0/public"
   s3_default_file = "public.yml"
   spec_path       = "${path.cwd}/../currency/l0"
@@ -72,7 +77,7 @@ module "openapi_currency_node_public_l0" {
 module "openapi_currency_node_public_l1" {
   source = "./modules/openapi"
 
-  s3_bucket_name  = var.bucket
+  s3_bucket_name  = module.bucket.bucket
   s3_prefix       = "currency/v${var.currency_version}/l1/public"
   s3_default_file = "public.yml"
   spec_path       = "${path.cwd}/../currency/l1"
@@ -81,7 +86,7 @@ module "openapi_currency_node_public_l1" {
 module "openapi_currency_node_owner" {
   source = "./modules/openapi"
 
-  s3_bucket_name  = var.bucket
+  s3_bucket_name  = module.bucket.bucket
   s3_prefix       = "currency/v${var.currency_version}/cli"
   s3_default_file = "cli.yml"
   spec_path       = "${path.cwd}/../currency/cli"
