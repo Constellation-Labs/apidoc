@@ -55,6 +55,26 @@ paths:
                 type: string
 
   /data:
+    get:
+      tags:
+        - Data
+      description: Get enqueued data update objects.
+      responses:
+        200:
+          description: Data update objects.
+          headers:
+            X-Id:
+              $ref: '../../models/headers/X-Id.yml'
+            X-Session-Token:
+              $ref: '../../models/headers/X-Session-Token.yml'
+            Request-Signature:
+              $ref: '../../models/headers/Request-Signature.yml'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: '../../models/schemas/SignedDataUpdate.yml'
     post:
       tags:
         - Data
