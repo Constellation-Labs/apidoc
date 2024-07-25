@@ -77,6 +77,36 @@ paths:
               schema:
                 $ref: '../../models/schemas/ErrorResponse.yml'
 
+  /transactions/estimate-fee:
+    post:
+      tags:
+        - Currency
+      description: Estimate $Currency transaction's fee
+      requestBody:
+        description: Signed $Currency transaction
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../models/schemas/SignedTransaction.yml'
+      responses:
+        200:
+          description: Estimated fee for posted $Currency transaction.
+          headers:
+            X-Id:
+              $ref: '../../models/headers/X-Id.yml'
+            X-Session-Token:
+              $ref: '../../models/headers/X-Session-Token.yml'
+            Request-Signature:
+              $ref: '../../models/headers/Request-Signature.yml'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hash:
+                    $ref: '../../models/schemas/Hash.yml'
+
   /transactions/{hash}:
     get:
       tags:
