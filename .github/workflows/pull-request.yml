@@ -1,7 +1,9 @@
 on:
   push:
     branches:
-      - master
+      - mainnet
+      - testnet
+      - integrationnet
       - develop
   pull_request:
 
@@ -17,7 +19,7 @@ jobs:
   terraform:
     name: Terraform
     environment:
-      name: ${{ (github.ref == 'refs/heads/master' && 'mainnet') || (github.ref == 'refs/heads/integrationnnet' && 'integrationnet') || (github.ref == 'refs/heads/testnet' && 'testnet') || 'dev' }}
+      name: ${{ (github.ref == 'refs/heads/mainnet' && 'mainnet') || (github.ref == 'refs/heads/integrationnnet' && 'integrationnet') || (github.ref == 'refs/heads/testnet' && 'testnet') || 'dev' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -64,7 +66,7 @@ jobs:
       - name: Terraform workspace select
         working-directory: ./terraform
         id: workspace
-        run: terraform workspace select ${{ (github.ref == 'refs/heads/master' && 'mainnet') || (github.ref == 'refs/heads/integrationnnet' && 'integrationnet') || (github.ref == 'refs/heads/testnet' && 'testnet') || 'dev' }}
+        run: terraform workspace select ${{ (github.ref == 'refs/heads/mainnet' && 'mainnet') || (github.ref == 'refs/heads/integrationnnet' && 'integrationnet') || (github.ref == 'refs/heads/testnet' && 'testnet') || 'dev' }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -131,7 +133,7 @@ jobs:
 
       - name: Terraform Apply
         working-directory: ./terraform
-        if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/integrationnet' || github.ref == 'refs/heads/testnet') && github.event_name == 'push'
+        if: (github.ref == 'refs/heads/mainnet' || github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/integrationnet' || github.ref == 'refs/heads/testnet') && github.event_name == 'push'
         run: terraform apply -auto-approve -var="bucket=${{ secrets.AWS_BUCKET }}"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
