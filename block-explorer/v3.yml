@@ -689,6 +689,48 @@ paths:
                         type: integer
                         format: int64
 
+  /currency:
+    get:
+      tags:
+        - Metagraph
+      summary: Get metagraphs
+      parameters:
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+      responses:
+        200:
+          description: List of metagraphs
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Metagraph'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
   /currency/{identifier}/snapshots/latest:
     get:
       tags:
@@ -2152,3 +2194,24 @@ components:
         snapshotHash: 1ee6e0f9161b7a29c96e8accb853fb479e0ea026832850ff5def773b5ff00c00
         snapshotOrdinal: 3
         timestamp: "2020-05-12T10:16:14Z"
+    Metagraph:
+      type: object
+      required:
+        - identifier
+        - lastSnapshotHash
+      properties:
+        identifier:
+          type: string
+        lastSnapshotHash:
+          type: string
+        stakingAddress:
+          type: string
+          nullable: true
+        ownerAddress:
+          type: string
+          nullable: true
+      example:
+        identifier: DAG2V3L7efRpk16UGcPHLcqLJthzWxpMoPR3vToD
+        lastSnapshotHash: 6ec1ba091915f2db2930472a5bd6f8abbef7d9eaf0147466bc6069a3eacc4ef6
+        stakingAddress: DAG2ERrUzev7LoZcs8xeiVqLFQcVXSmEmg5cZ9wW
+        ownerAddress: DAG2ABrUzev7LoZcs8xeiVqLFQcVXSmEmg5cZ9wX
