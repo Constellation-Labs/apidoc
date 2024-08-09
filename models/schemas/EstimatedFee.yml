@@ -1,0 +1,11 @@
+type: object
+properties:
+  fee:
+    type: integer
+    format: int64
+  address:
+    $ref: 'Address.yml'
+example:
+  fee: 0
+  address: DAG4xPWQj3BpAg2YKg3kbdW2AJcMfZz2SUKqYb1t
+

@@ -129,3 +129,56 @@ paths:
             application/json:
               schema:
                 $ref: '../../models/schemas/ErrorResponse.yml'
+
+  /data/estimate-fee:
+    post:
+      tags:
+        - Data
+      description: Estimate fee for given data update.
+      requestBody:
+        description: Data update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../models/schemas/DataUpdate.yml'
+      responses:
+        200:
+          description: Estimated fee amount.
+          headers:
+            X-Id:
+              $ref: '../../models/headers/X-Id.yml'
+            X-Session-Token:
+              $ref: '../../models/headers/X-Session-Token.yml'
+            Request-Signature:
+              $ref: '../../models/headers/Request-Signature.yml'
+          content:
+            application/json:
+              schema:
+                $ref: '../../models/schemas/EstimatedFee.yml'
+        400:
+          description: Invalid data update.
+          headers:
+            X-Id:
+              $ref: '../../models/headers/X-Id.yml'
+            X-Session-Token:
+              $ref: '../../models/headers/X-Session-Token.yml'
+            Request-Signature:
+              $ref: '../../models/headers/Request-Signature.yml'
+          content:
+            application/json:
+              schema:
+                $ref: '../../models/schemas/ErrorResponse.yml'
+        503:
+          description: Last Global Snapshot ordinal not available.
+          headers:
+            X-Id:
+              $ref: '../../models/headers/X-Id.yml'
+            X-Session-Token:
+              $ref: '../../models/headers/X-Session-Token.yml'
+            Request-Signature:
+              $ref: '../../models/headers/Request-Signature.yml'
+          content:
+            application/json:
+              schema:
+                $ref: '../../models/schemas/ErrorResponse.yml'
