@@ -2197,10 +2197,12 @@ components:
     Metagraph:
       type: object
       required:
-        - identifier
+        - id
         - lastSnapshotHash
+        - stakingAddress
+        - ownerAddress
       properties:
-        identifier:
+        id:
           type: string
         lastSnapshotHash:
           type: string
@@ -2211,7 +2213,7 @@ components:
           type: string
           nullable: true
       example:
-        identifier: DAG2V3L7efRpk16UGcPHLcqLJthzWxpMoPR3vToD
+        id: DAG2V3L7efRpk16UGcPHLcqLJthzWxpMoPR3vToD
         lastSnapshotHash: 6ec1ba091915f2db2930472a5bd6f8abbef7d9eaf0147466bc6069a3eacc4ef6
         stakingAddress: DAG2ERrUzev7LoZcs8xeiVqLFQcVXSmEmg5cZ9wW
         ownerAddress: DAG2ABrUzev7LoZcs8xeiVqLFQcVXSmEmg5cZ9wX
