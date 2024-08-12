@@ -471,6 +471,54 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFound'
 
+  /addresses/{address}/snapshots:
+    get:
+      tags:
+        - Currency snapshot
+      summary: Get currency snapshots by owner address
+      parameters:
+        - name: address
+          in: path
+          description: Owner address
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit (size) of the response items
+          required: false
+          schema:
+            type: integer
+        - name: next
+          in: query
+          description: Next page pagination string
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Owner address's snapshots
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OwnerAddressSnapshot'
+                  meta:
+                    type: object
+                    properties:
+                      next:
+                        type: string
+        404:
+          description: Not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
   /addresses/{address}/transactions:
     get:
       tags:
@@ -1943,6 +1991,29 @@ components:
           type: array
           items:
             type: string
+    OwnerAddressSnapshot:
+      allOf:
+        - $ref: '#/components/schemas/CurrencySnapshot'
+        - type: object
+          properties:
+            metagraphId:
+              type: string
+              nullable: false
+      example:
+        hash: 1ae6e0f9161b7a29c96e8accb853fb479e0ea026832850ff5def773b5ff00c00
+        ordinal: 58183
+        height: 58100
+        subHeight: 2
+        lastSnapshotHash: 0922bd4a63353040589547cfed00f2660fb736ce694199384f1df2edaac54fe6
+        blocks:
+          - 0922bd4a63353040589547cfed00f2660fb736ce694199384f1df2adaac54fe6
+          - 0c27a295e1f58e41582538b8deb18a3aea4ae4b52b7e53c529ed80c03eaaeed1
+        timestamp: "2020-05-12T10:16:14Z"
+        fee: 30000
+        stakingAddress: "DAGXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+        ownerAddress: "DAGXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+        sizeInKB: 3
+        metagraphId: "DAGXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     CurrencySnapshot:
       allOf:
         - $ref: '#/components/schemas/Snapshot'
