@@ -255,10 +255,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Transaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -340,10 +337,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Transaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -400,10 +394,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Transaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -460,10 +451,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Transaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -508,10 +496,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/OwnerAddressSnapshot'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -568,10 +553,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Transaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -628,10 +610,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Transaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -688,10 +667,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Transaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -768,10 +744,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Metagraph'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -1075,10 +1048,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Transaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -1170,10 +1140,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Transaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -1236,10 +1203,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Transaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -1302,10 +1266,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Transaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -1368,10 +1329,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Transaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -1434,10 +1392,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Transaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -1500,10 +1455,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Transaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -1639,10 +1591,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/FeeTransaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -1705,10 +1654,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/FeeTransaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -1771,10 +1717,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/FeeTransaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -1837,10 +1780,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/FeeTransaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -1903,10 +1843,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/FeeTransaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -1969,10 +1906,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/FeeTransaction'
                   meta:
-                    type: object
-                    properties:
-                      next:
-                        type: string
+                    $ref: '#/components/schemas/Meta'
         404:
           description: Not found
           content:
@@ -1982,6 +1916,13 @@ paths:
 
 components:
   schemas:
+    Meta:
+      type: object
+      properties:
+        next:
+          type: string
+          nullable: true
+
     NotFound:
       type: object
       properties:
