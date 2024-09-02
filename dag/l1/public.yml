@@ -64,7 +64,16 @@ paths:
                   hash:
                     $ref: '../../models/schemas/Hash.yml'
         400:
-          description: $DAG transaction has been rejected. Returned rejection reason.
+          description: |
+            $DAG transaction has been rejected. Returned one of rejection reasons:
+               - TransactionLimited - the limit for fee-less transactions per address depends on the address balance and time passed since last accepted transaction.
+               - ParentOrdinalLowerThenLastTxOrdinal - The transaction's ordinal number must be +1 relative to the last accepted transaction.
+               - HasNoMatchingParent - the parent's hash of the transaction must point to the existing accepted transaction.
+               - InsufficientBalance - the amount value of the transaction is higher than the balance of the source address.
+               - AddressLocked - the address is locked by the network, and transactions can't be made.
+               - Conflict - such transaction has been already accepted by the network.
+               - SameSourceAndDestinationAddress - the source and destination addresses should be different.
+               - NotSignedBySourceAddressOwner - the transaction should be signed exclusively by the key of the source address.
           headers:
             X-Id:
               $ref: '../../models/headers/X-Id.yml'
