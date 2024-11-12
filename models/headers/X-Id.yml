@@ -1,3 +1,0 @@
-description: Node Id
-schema:
-  $ref: '../schemas/PeerId.yml'

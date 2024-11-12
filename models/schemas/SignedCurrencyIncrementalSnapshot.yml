@@ -1,8 +1,0 @@
-type: object
-properties:
-  value:
-    $ref: 'CurrencyIncrementalSnapshot.yml'
-  proofs:
-    type: array
-    items:
-      $ref: 'SignatureProof.yml'
