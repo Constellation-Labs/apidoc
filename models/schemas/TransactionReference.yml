@@ -1,8 +1,0 @@
-type: object
-properties:
-  ordinal:
-    type: integer
-    format: int64
-    example: 15
-  hash:
-    $ref: 'Hash.yml'

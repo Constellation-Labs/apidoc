@@ -1,8 +1,0 @@
-type: object
-properties:
-  value:
-    $ref: 'Transaction.yml'
-  proofs:
-    type: array
-    items:
-      $ref: 'SignatureProof.yml'

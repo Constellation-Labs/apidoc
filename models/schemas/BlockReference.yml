@@ -1,6 +1,0 @@
-type: object
-properties:
-  height:
-    $ref: 'Height.yml'
-  hash:
-    $ref: 'ProofsHash.yml'

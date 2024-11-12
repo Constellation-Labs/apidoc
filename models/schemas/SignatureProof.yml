@@ -1,6 +1,0 @@
-type: object
-properties:
-  id:
-    $ref: 'Id.yml'
-  signature:
-    $ref: 'Signature.yml'

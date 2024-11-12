@@ -6,8 +6,3 @@ variable "aws_region" {
 variable "bucket" {
   type = string
 }
-
-variable "currency_version" {
-  type    = number
-  default = 1
-}

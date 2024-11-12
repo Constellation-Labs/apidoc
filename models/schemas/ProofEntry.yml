@@ -1,9 +1,0 @@
-type: object
-properties:
-  target:
-    $ref: 'Hash.yml'
-  sibling:
-    type: object
-    oneOf:
-      - $ref: 'LeftSibling.yml'
-      - $ref: 'RightSibling.yml'

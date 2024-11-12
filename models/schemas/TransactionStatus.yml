@@ -1,5 +1,0 @@
-description: 'Status of the transaction'
-type: string
-enum:
-  - Waiting
-example: Waiting

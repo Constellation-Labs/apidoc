@@ -1,3 +1,0 @@
-description: Node session identifier
-schema:
-  $ref: '../schemas/SessionToken.yml'

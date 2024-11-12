@@ -1,4 +1,0 @@
-type: object
-properties:
-  Left:
-    $ref: 'Hash.yml'
